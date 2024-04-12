@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RightRoundedTextField extends StatelessWidget {
-  final String hint;
-  final String svg;
+  final String? hint;
+  final String? svg;
   const RightRoundedTextField({
     this.hint,
     this.svg,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class RightRoundedTextField extends StatelessWidget {
             ),
           ),
           SvgPicture.asset(
-            svg,
+            svg!,
             height: 20,
           )
         ],

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyIconButton extends StatelessWidget {
-  final String svg;
+  final String? svg;
   final double size;
   const MyIconButton({
     this.svg,
     this.size = 64,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -19,9 +19,9 @@ class MyIconButton extends StatelessWidget {
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: kBlackColor,
+        color: kSecondaryColor,
       ),
-      child: SvgPicture.asset(svg),
+      child: SvgPicture.asset(svg!),
     );
   }
 }
