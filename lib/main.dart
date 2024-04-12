@@ -1,10 +1,10 @@
 import 'package:auth_screen/constants.dart';
-import 'package:auth_screen/login.dart';
+import 'package:auth_screen/pages/login.dart';
 import 'package:auth_screen/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  final authService = AuthService(baseUrl: 'sua_url_base');
+  final authService = AuthService(baseUrl: 'http://localhost:3000/api');
   runApp(MyApp(authService: authService));
 }
 

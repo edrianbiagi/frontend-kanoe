@@ -1,16 +1,23 @@
 import 'dart:convert';
+import 'package:auth_screen/pages/turmas.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
   final Dio _dio;
   final String baseUrl;
+  final FlutterSecureStorage _secureStorage;
 
-  AuthService({required this.baseUrl}) : _dio = Dio();
+  AuthService({required this.baseUrl})
+      : _dio = Dio(),
+        _secureStorage = FlutterSecureStorage();
 
-  Future<Map<String, dynamic>?> signIn(String cpf, String password) async {
+  Future<Map<String, dynamic>?> signIn(
+      BuildContext context, String cpf, String password) async {
     try {
       final response = await _dio.post(
-        'http://localhost:3000/api/auth/login',
+        '${baseUrl}/auth/login',
         data: jsonEncode(<String, String>{
           'cpf': cpf,
           'password': password,
@@ -19,17 +26,45 @@ class AuthService {
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
           },
+          validateStatus: (status) {
+            // Retorna true se o status for 200, 401 ou qualquer outro código de status que você deseja tratar explicitamente
+            return status == 200 || status == 401;
+          },
         ),
       );
 
       if (response.statusCode == 200) {
-        return response.data;
+        final token = response.data['accessToken'];
+        await _secureStorage.write(key: 'token', value: token);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Turmas()),
+        );
+      } else if (response.statusCode == 401) {
+        // Se o status da resposta for 401 (Unauthorized), significa que as credenciais estão incorretas
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login falhou. Verifique suas credenciais.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       } else {
-        return null;
+        // Se o status da resposta for diferente de 200 e 401, algo inesperado aconteceu
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Ocorreu um erro. Por favor, tente novamente mais tarde.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } catch (error) {
       print('Error during sign in: $error');
-      return null;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ocorreu um erro. Por favor, tente novamente mais tarde.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 }
