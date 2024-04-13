@@ -1,8 +1,9 @@
 import 'package:auth_screen/pages/turmas.dart';
-import 'package:auth_screen/services/auth_services.dart';
+import 'package:auth_screen/repositories/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:auth_screen/constants.dart';
 import 'package:auth_screen/widgets/background_image.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Login extends StatelessWidget {
@@ -50,6 +51,12 @@ class Login extends StatelessWidget {
                       ),
                       border: InputBorder.none,
                     ),
+                    keyboardType: TextInputType
+                        .number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter
+                          .digitsOnly, 
+                    ],
                   ),
                 ),
                 SizedBox(height: 10),
@@ -100,11 +107,11 @@ class Login extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          Map<String, dynamic>? userData = await authService.signIn(context, cpf, password);
+                          Map<String, dynamic>? userData =
+                              await authService.signIn(context, cpf, password);
 
                           cpfController.clear();
                           passwordController.clear();
-                          
                         },
                         child: SvgPicture.asset(
                           "assets/icons/Goarrow.svg",
