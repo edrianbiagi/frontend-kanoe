@@ -252,7 +252,7 @@ class _SeeAllState extends State<SeeAll> {
                     ),
                     SizedBox(height: 16),
                     Column(
-                      children: _buildGuestInputFields(),
+                      children: _buildGuestInputFields(context),
                     ),
                   ],
                 ),
@@ -264,19 +264,40 @@ class _SeeAllState extends State<SeeAll> {
     );
   }
 
-  List<Widget> _buildGuestInputFields() {
+  List<Widget> _buildGuestInputFields(BuildContext context) {
     List<Widget> fields = [];
+
     for (int i = 0; i < _numberOfGuests; i++) {
+      var nameController = TextEditingController();
+
       fields.add(
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Nome do Convidado ${i + 1}',
-            border: OutlineInputBorder(),
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: 'Convidado(a) ${i + 1}',
+                   border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                ),
+              ),
+            ),
+          ],
         ),
       );
       fields.add(SizedBox(height: 16));
     }
+
+    fields.add(ElevatedButton(
+      onPressed: () {},
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+      ),
+      child: Text('Finalizar', style: TextStyle(color: Colors.white)),
+    ));
+
     return fields;
   }
 }
