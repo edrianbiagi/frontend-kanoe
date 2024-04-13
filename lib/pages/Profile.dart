@@ -1,18 +1,20 @@
 import 'dart:async';
 import 'package:auth_screen/pages/Oppointment.dart';
 import 'package:auth_screen/res/lists.dart';
-import 'package:auth_screen/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
-  final AssetImage image;
   final String name;
   final String speciality;
-  const Profile({super.key,required this.image,required this.name,required this.speciality});
+  const Profile(
+      {super.key,
+      required this.name,
+      required this.speciality});
 
   @override
   State<Profile> createState() => _ProfileState();
 }
+
 class _ProfileState extends State<Profile> {
   var animate = false;
   var opacity = 0.0;
@@ -59,9 +61,7 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     height: size.height / 2,
                     width: size.width,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: widget.image, fit: BoxFit.cover)),
+                    
                   ),
                 )),
             AnimatedPositioned(
@@ -77,22 +77,26 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextWidget(
+                        Text(
                           names[0],
-                          25,
-                          Colors.black,
-                          FontWeight.bold,
-                          letterSpace: 0,
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 25,
+                          ),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        TextWidget(
-                          spacilality[0],
-                          15,
-                          Colors.black.withOpacity(.6),
-                          FontWeight.bold,
-                          letterSpace: 0,
+                        Text(
+                          names[0],
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.6),
+                            fontSize: 15,
+                          ),
                         ),
                         const SizedBox(
                           height: 50,
@@ -124,22 +128,26 @@ class _ProfileState extends State<Profile> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextWidget(
+                                    Text(
                                       "Rating",
-                                      17,
-                                      Colors.black.withOpacity(.5),
-                                      FontWeight.bold,
-                                      letterSpace: 0,
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.5),
+                                        fontSize: 17,
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    TextWidget(
+                                    Text(
                                       "4,5 from 5",
-                                      23,
-                                      Colors.black,
-                                      FontWeight.bold,
-                                      letterSpace: 0,
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 23,
+                                      ),
                                     ),
                                   ],
                                 )
@@ -177,22 +185,26 @@ class _ProfileState extends State<Profile> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextWidget(
+                                    Text(
                                       "Patient",
-                                      17,
-                                      Colors.black.withOpacity(.5),
-                                      FontWeight.bold,
-                                      letterSpace: 0,
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.5),
+                                        fontSize: 17,
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    TextWidget(
+                                    Text(
                                       "130 +",
-                                      23,
-                                      Colors.black,
-                                      FontWeight.bold,
-                                      letterSpace: 0,
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ],
                                 )
@@ -217,8 +229,8 @@ class _ProfileState extends State<Profile> {
                           end: Alignment.bottomCenter,
                           colors: [
                         Colors.white.withOpacity(.1),
-                            Colors.white,
-                            Colors.white
+                        Colors.white,
+                        Colors.white
                       ])),
                 )),
             AnimatedPositioned(
@@ -236,33 +248,53 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextWidget("Biography", 25, Colors.black, FontWeight.bold),
+                        Text(
+                          "Biography",
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 25,
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
-                        TextWidget(
+                        Text(
                           "Famous doctor, hygienist, folklore researcher and sanitary mentor, Charles Laugier, whose contribution to the development",
-                          15,
-                          Colors.black.withOpacity(.5),
-                          FontWeight.normal,
-                          letterSpace: 0,
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                            fontSize: 15,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 )),
             AnimatedPositioned(
-                top: animate?465:560,
+                top: animate ? 465 : 560,
                 right: 80,
                 duration: const Duration(milliseconds: 400),
                 child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 400),
-                    opacity: opacity,
-                    child: TextWidget(" Read more", 15, Colors.blue, FontWeight.bold,letterSpace: 0,))),
+                  duration: const Duration(milliseconds: 400),
+                  opacity: opacity,
+                  child: Text(
+                    " Read more",
+                    style: TextStyle(
+                      fontFamily: 'Helvetica',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontSize: 15,
+                    ),
+                  ),
+                )),
             AnimatedPositioned(
                 left: 20,
                 right: 20,
-                bottom: animate?80:-20, duration: const Duration(milliseconds: 400),
+                bottom: animate ? 80 : -20,
+                duration: const Duration(milliseconds: 400),
                 child: AnimatedOpacity(
                   opacity: opacity,
                   duration: const Duration(milliseconds: 400),
@@ -274,7 +306,15 @@ class _ProfileState extends State<Profile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextWidget("Shedule", 25, Colors.black, FontWeight.bold),
+                        Text(
+                          "Shedule",
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 25,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -292,8 +332,24 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    TextWidget("19", 15, Colors.black, FontWeight.bold,letterSpace: 0,),
-                                    TextWidget("Thu", 15, Colors.black, FontWeight.bold,letterSpace: 0,),
+                                    Text(
+                                      "19",
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Thu",
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -312,7 +368,15 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    TextWidget("20", 15, Colors.black, FontWeight.bold,letterSpace: 0,),
+                                    Text(
+                                      "20",
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -331,7 +395,15 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    TextWidget("21", 15, Colors.black, FontWeight.bold,letterSpace: 0,),
+                                    Text(
+                                      "21",
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -350,7 +422,15 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    TextWidget("22", 15, Colors.black, FontWeight.bold,letterSpace: 0,),
+                                    Text(
+                                      "22",
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -362,18 +442,21 @@ class _ProfileState extends State<Profile> {
                   ),
                 )),
             AnimatedPositioned(
-                bottom: animate?15:-80,
+                bottom: animate ? 15 : -80,
                 left: 30,
-                right: 30, duration: const Duration(milliseconds: 400),
+                right: 30,
+                duration: const Duration(milliseconds: 400),
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 400),
                   opacity: opacity,
                   child: InkWell(
-                    onTap: () async
-                    {
+                    onTap: () async {
                       animator();
                       await Future.delayed(const Duration(milliseconds: 400));
-                      await Navigator.push(context, MaterialPageRoute(builder: (context) =>Oppointment(0)));
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Oppointment(0)));
                       animator();
                     },
                     child: Container(
@@ -386,30 +469,54 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextWidget("Make an appointment", 18, Colors.white, FontWeight.w500,letterSpace: 1,),
-                          const SizedBox(width: 4,),
-                          const Icon(Icons.arrow_forward_ios_outlined,color: Colors.white,size: 18,),
-                          Icon(Icons.arrow_forward_ios_outlined,color: Colors.white.withOpacity(.5),size: 18,),
-                          Icon(Icons.arrow_forward_ios_outlined,color: Colors.white.withOpacity(.2),size: 18,),
+                          Text(
+                            "Make an appointment",
+                            style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white.withOpacity(.5),
+                            size: 18,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white.withOpacity(.2),
+                            size: 18,
+                          ),
                         ],
                       ),
                     ),
                   ),
                 )),
             AnimatedPositioned(
-                top: animate?20:100,
-                left: 20, duration: const Duration(milliseconds: 400),
+                top: animate ? 20 : 100,
+                left: 20,
+                duration: const Duration(milliseconds: 400),
                 child: AnimatedOpacity(
                     opacity: opacity,
                     duration: const Duration(milliseconds: 400),
                     child: InkWell(
-                      onTap: ()
-                      {
+                      onTap: () {
                         animator();
                         Navigator.pop(context);
                       },
                       child: const Icon(
-                        Icons.arrow_back_ios_new_sharp,color: Colors.black,),
+                        Icons.arrow_back_ios_new_sharp,
+                        color: Colors.black,
+                      ),
                     ))),
           ],
         ),

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:auth_screen/pages/turmas.dart';
 import 'package:auth_screen/res/lists.dart';
-import 'package:auth_screen/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'Chat.dart';
@@ -14,7 +13,7 @@ class SeeAll extends StatefulWidget {
 
 class _SeeAllState extends State<SeeAll> {
   var opacity = 0.0;
-  bool position=false;
+  bool position = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -27,14 +26,13 @@ class _SeeAllState extends State<SeeAll> {
   animator() {
     if (opacity == 1) {
       opacity = 0;
-      position=false;
+      position = false;
     } else {
       opacity = 1;
-      position=true;
+      position = true;
     }
     setState(() {});
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +71,23 @@ class _SeeAllState extends State<SeeAll> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextWidget(
-                          "Nearby Doctors",
-                          22,
-                          Colors.black,
-                          FontWeight.bold,
-                          letterSpace: 0,
+                        Text(
+                          'Nearby Doctors',
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 22,
+                          ),
                         ),
-                        TextWidget(
-                          "See all",
-                          14,
-                          Colors.blue.shade900,
-                          FontWeight.bold,
-                          letterSpace: 0,
+                        Text(
+                          'See all',
+                          style: TextStyle(
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade900,
+                            fontSize: 22,
+                          ),
                         ),
                       ],
                     ),
@@ -103,8 +105,7 @@ class _SeeAllState extends State<SeeAll> {
                       height: 350,
                       child: ListView.builder(
                         itemCount: 7,
-                        itemBuilder:
-                            (context, index) => InkWell(
+                        itemBuilder: (context, index) => InkWell(
                           onTap: () async {
                             animator();
                             await Future.delayed(
@@ -112,7 +113,10 @@ class _SeeAllState extends State<SeeAll> {
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Chat(image: images[index],name: names[index],specialist: spacilality[index]),
+                                  builder: (context) => Chat(
+                                     
+                                      name: names[index],
+                                      specialist: spacilality[index]),
                                 ));
                             animator();
                           },
@@ -126,42 +130,47 @@ class _SeeAllState extends State<SeeAll> {
                               width: double.infinity,
                               child: Row(
                                 children: [
-                                  const SizedBox(width: 20,),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                   CircleAvatar(
                                     radius: 30,
-                                    backgroundImage: images[index],
+                                    
                                     backgroundColor: Colors.blue,
                                   ),
                                   const SizedBox(
                                     width: 10,
                                   ),
                                   Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      TextWidget(
+                                      Text(
                                         names[index],
-                                        20,
-                                        Colors.black,
-                                        FontWeight.bold,
-                                        letterSpace: 0,
+                                        style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 17,
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      TextWidget(
+                                      Text(
                                         spacilality[index],
-                                        17,
-                                        Colors.black,
-                                        FontWeight.bold,
-                                        letterSpace: 0,
+                                        style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 17,
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       const Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.star,
@@ -192,27 +201,28 @@ class _SeeAllState extends State<SeeAll> {
                                     Icons.navigation_sharp,
                                     color: Colors.blue,
                                   ),
-                                  const SizedBox(width: 20,),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                 ],
                               ),
                             ),
                           ),
-                        ),),
-                    )
-                )),
+                        ),
+                      ),
+                    ))),
           ],
         ),
       ),
     );
   }
 
-  Widget findDoctor(){
+  Widget findDoctor() {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 400),
       opacity: opacity,
       child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Container(
           height: 300,
           width: MediaQuery.of(context).size.width,
@@ -242,8 +252,7 @@ class _SeeAllState extends State<SeeAll> {
                         child: Center(
                           child: Image(
                             fit: BoxFit.fill,
-                            image:
-                            AssetImage('assets/images/p1.png'),
+                            image: AssetImage('assets/images/p1.png'),
                           ),
                         ),
                       ),
@@ -251,34 +260,35 @@ class _SeeAllState extends State<SeeAll> {
                         width: 10,
                       ),
                       Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
                             height: 10,
                           ),
-                          TextWidget(
+                          Text(
                             "Find Doctors!",
-                            18,
-                            Colors.white,
-                            FontWeight.bold,
-                            letterSpace: 0,
+                            style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                           const SizedBox(
                             height: 5,
                           ),
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            mainAxisAlignment:
-                            MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              TextWidget(
+                              Text(
                                 "Use this feature to find a doctor\nclosest to you",
-                                15,
-                                Colors.white,
-                                FontWeight.normal,
-                                letterSpace: 0,
+                                style: TextStyle(
+                                  fontFamily: 'Helvetica',
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
                               ),
                             ],
                           ),
@@ -298,8 +308,7 @@ class _SeeAllState extends State<SeeAll> {
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage(
-                                  'assets/images/map.png'))),
+                              image: AssetImage('assets/images/map.png'))),
                     ),
                   )),
               const Positioned(
@@ -316,7 +325,8 @@ class _SeeAllState extends State<SeeAll> {
       ),
     );
   }
-  Widget upperRow(){
+
+  Widget upperRow() {
     return AnimatedOpacity(
       opacity: opacity,
       duration: const Duration(milliseconds: 400),
@@ -340,7 +350,15 @@ class _SeeAllState extends State<SeeAll> {
               size: 25,
             ),
           ),
-          TextWidget("Our Doctors", 25, Colors.black, FontWeight.bold),
+          Text(
+            "Our Doctors",
+            style: TextStyle(
+              fontFamily: 'Helvetica',
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 25,
+            ),
+          ),
           const Icon(
             Icons.search,
             color: Colors.black,
@@ -350,5 +368,4 @@ class _SeeAllState extends State<SeeAll> {
       ),
     );
   }
-
 }

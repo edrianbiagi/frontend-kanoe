@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'package:auth_screen/pages/Profile.dart';
 import 'package:auth_screen/pages/SeeAll.dart';
-import 'package:auth_screen/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class Chat extends StatefulWidget {
-  final AssetImage image;
   final String name;
   final String specialist;
-  const Chat({super.key, required this.image,required this.name,required this.specialist});
+  const Chat(
+      {super.key,
+      
+      required this.name,
+      required this.specialist});
   @override
   State<Chat> createState() => _ChatState();
 }
@@ -66,7 +68,8 @@ class _ChatState extends State<Chat> {
                         Positioned(
                             top: 1,
                             child: Container(
-                              padding: const EdgeInsets.only(left: 20, right: 20),
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
                               height: 70,
                               color: Colors.white,
                               width: size.width,
@@ -76,12 +79,15 @@ class _ChatState extends State<Chat> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   InkWell(
-                                    onTap: ()
-                                    {
+                                    onTap: () {
                                       animator();
-                                      Timer(const Duration(milliseconds: 500),()
-                                      {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SeeAll(),));
+                                      Timer(const Duration(milliseconds: 500),
+                                          () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => SeeAll(),
+                                            ));
                                       });
                                     },
                                     child: const Icon(
@@ -90,17 +96,24 @@ class _ChatState extends State<Chat> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () async
-                                    {
+                                    onTap: () async {
                                       animator();
-                                      await Future.delayed(const Duration(milliseconds: 400));
-                                      await Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(image: widget.image,name: widget.name,speciality: widget.specialist),));
+                                      await Future.delayed(
+                                          const Duration(milliseconds: 400));
+                                      await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Profile(
+                                                
+                                                name: widget.name,
+                                                speciality: widget.specialist),
+                                          ));
                                       animator();
                                     },
                                     child: CircleAvatar(
                                       radius: 25,
                                       backgroundColor: Colors.blue,
-                                      backgroundImage: widget.image,
+                                     
                                     ),
                                   ),
                                   Column(
@@ -108,12 +121,14 @@ class _ChatState extends State<Chat> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      TextWidget(
+                                      Text(
                                         widget.name,
-                                        15,
-                                        Colors.black,
-                                        FontWeight.bold,
-                                        letterSpace: 0,
+                                        style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 25,
+                                        ),
                                       ),
                                       Row(
                                         children: [
@@ -124,13 +139,15 @@ class _ChatState extends State<Chat> {
                                                 color: Colors.green,
                                                 shape: BoxShape.circle),
                                           ),
-                                          TextWidget(
+                                          Text(
                                             "online",
-                                            13,
-                                            Colors.black,
-                                            FontWeight.normal,
-                                            letterSpace: 1,
-                                          )
+                                            style: TextStyle(
+                                              fontFamily: 'Helvetica',
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                              fontSize: 13,
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
@@ -176,49 +193,92 @@ class _ChatState extends State<Chat> {
                             child: Container(
                               height: size.height / 1.35,
                               width: size.width,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               color: Colors.white,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const SizedBox(height: 30,),
-                                  msgBox(size, "Use the Stick on other hand Fandit", "08:20",Colors.blue.withOpacity(.1),Colors.grey),
-                                  const SizedBox(height: 30,),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  msgBox(
+                                      size,
+                                      "Use the Stick on other hand Fandit",
+                                      "08:20",
+                                      Colors.blue.withOpacity(.1),
+                                      Colors.grey),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
                                   Align(
                                     alignment: Alignment.topRight,
-                                    child: msgBox(size, "Thanks doc!", "09:20",Colors.blue.shade900,Colors.white),
+                                    child: msgBox(size, "Thanks doc!", "09:20",
+                                        Colors.blue.shade900, Colors.white),
                                   ),
-                                  const SizedBox(height: 30,),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Container(
-                                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20),
                                           height: 1,
-                                          width: size.width/3,
+                                          width: size.width / 3,
                                           color: Colors.black.withOpacity(.5),
                                         ),
                                       ),
-                                      TextWidget("today", 14, Colors.black.withOpacity(.5),FontWeight.bold),
+                                      Text(
+                                        "today",
+                                        style: TextStyle(
+                                          fontFamily: 'Helvetica',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black.withOpacity(.5),
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                       Expanded(
                                         child: Container(
                                           height: 1,
-                                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20),
                                           color: Colors.black.withOpacity(.5),
                                         ),
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 30,),
-                                  msgBox(size, "Morning!\n\nHow the result did it\nwork well", "08:20",Colors.blue.withOpacity(.1),Colors.grey),
-                                  const SizedBox(height: 30,),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  msgBox(
+                                      size,
+                                      "Morning!\n\nHow the result did it\nwork well",
+                                      "08:20",
+                                      Colors.blue.withOpacity(.1),
+                                      Colors.grey),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
                                   Align(
                                     alignment: Alignment.topRight,
-                                    child:
-                                    msgBox(size, "Morning doc,Problem is\nsolved,Thanks doc", "08:25",Colors.blue.shade900,Colors.white),
+                                    child: msgBox(
+                                        size,
+                                        "Morning doc,Problem is\nsolved,Thanks doc",
+                                        "08:25",
+                                        Colors.blue.shade900,
+                                        Colors.white),
                                   ),
-                                  const Image(image: AssetImage('assets/images/emoji.png',),width: 130,height: 130,)
+                                  const Image(
+                                    image: AssetImage(
+                                      'assets/images/emoji.png',
+                                    ),
+                                    width: 130,
+                                    height: 130,
+                                  )
                                 ],
                               ),
                             )),
@@ -227,7 +287,8 @@ class _ChatState extends State<Chat> {
                             left: 30,
                             right: 30,
                             child: Container(
-                              padding: const EdgeInsets.only(left: 40, right: 40),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 40),
                               height: size.height / 13,
                               width: size.width,
                               decoration: BoxDecoration(
@@ -258,10 +319,12 @@ class _ChatState extends State<Chat> {
       ),
     );
   }
-  Widget msgBox(Size size,String msg,String time,Color color,Color textColor){
+
+  Widget msgBox(
+      Size size, String msg, String time, Color color, Color textColor) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-      width: size.width/2,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      width: size.width / 2,
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.only(
@@ -273,21 +336,25 @@ class _ChatState extends State<Chat> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextWidget(
+          Text(
             msg,
-            15,
-            textColor,
-            FontWeight.bold,
-            letterSpace: 1,
+            style: TextStyle(
+              fontFamily: 'Helvetica',
+              fontWeight: FontWeight.bold,
+              color: Colors.black.withOpacity(.5),
+              fontSize: 15,
+            ),
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: TextWidget(
-              time,
-              13,
-              textColor,
-              FontWeight.bold,
-              letterSpace: 0,
+            child: Text(
+              msg,
+              style: TextStyle(
+                fontFamily: 'Helvetica',
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withOpacity(.5),
+                fontSize: 13,
+              ),
             ),
           ),
         ],

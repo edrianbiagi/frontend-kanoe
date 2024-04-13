@@ -1,21 +1,18 @@
 import 'dart:async';
-
-import 'package:auth_screen/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'Profile.dart';
 
 class Oppointment extends StatefulWidget {
-  int index=0;
+  int index = 0;
   Oppointment(this.index, {super.key});
   @override
   State<Oppointment> createState() => _OppointmentState();
 }
 
 class _OppointmentState extends State<Oppointment> {
-  var images=[
-
+  var images = [
     const AssetImage('assets/images/doctor2.png'),
     const AssetImage('assets/images/doctor3.png'),
     const AssetImage('assets/images/doctor4.png'),
@@ -92,7 +89,8 @@ class _OppointmentState extends State<Oppointment> {
                                 InkWell(
                                     onTap: () {
                                       animator();
-                                      Timer(const Duration(milliseconds: 500), () {
+                                      Timer(const Duration(milliseconds: 500),
+                                          () {
                                         Navigator.pop(context);
                                       });
                                     },
@@ -100,12 +98,14 @@ class _OppointmentState extends State<Oppointment> {
                                       Icons.arrow_back_ios_new_outlined,
                                       color: Colors.black,
                                     )),
-                                TextWidget(
+                                Text(
                                   "Oppointment",
-                                  25,
-                                  Colors.black,
-                                  FontWeight.bold,
-                                  letterSpace: 0,
+                                  style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                  ),
                                 ),
                                 Container(
                                   height: 10,
@@ -145,15 +145,18 @@ class _OppointmentState extends State<Oppointment> {
                               ),
                             )),
                         Positioned(
-                            top: 390,
-                            left: 30,
-                            child: TextWidget(
-                              "Time",
-                              25,
-                              Colors.black,
-                              FontWeight.bold,
-                              letterSpace: 0,
-                            )),
+                          top: 390,
+                          left: 30,
+                          child: Text(
+                            "Time",
+                            style: TextStyle(
+                              fontFamily: 'Helvetica',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ),
                         Positioned(
                             top: 440,
                             left: 10,
@@ -176,13 +179,16 @@ class _OppointmentState extends State<Oppointment> {
                                           height: 60,
                                           width: 110,
                                           child: Center(
-                                              child: TextWidget(
-                                            "09:00 Am",
-                                            17,
-                                            Colors.black,
-                                            FontWeight.bold,
-                                                letterSpace: 1,
-                                          ))),
+                                            child: Text(
+                                              "09:00 Am",
+                                              style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
@@ -201,13 +207,16 @@ class _OppointmentState extends State<Oppointment> {
                                           height: 60,
                                           width: 110,
                                           child: Center(
-                                              child: TextWidget(
-                                            "09:30 Am",
-                                            17,
-                                            Colors.black,
-                                            FontWeight.bold,
-                                                letterSpace: 1,
-                                          ))),
+                                            child: Text(
+                                              "09:30 Am",
+                                              style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
@@ -226,13 +235,16 @@ class _OppointmentState extends State<Oppointment> {
                                           height: 60,
                                           width: 110,
                                           child: Center(
-                                              child: TextWidget(
-                                            "10:00 Am",
-                                            17,
-                                            Colors.black,
-                                            FontWeight.bold,
-                                                letterSpace: 1,
-                                          ))),
+                                            child: Text(
+                                              "09:30 Am",
+                                              style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
@@ -260,13 +272,16 @@ class _OppointmentState extends State<Oppointment> {
                                           height: 60,
                                           width: 110,
                                           child: Center(
-                                              child: TextWidget(
-                                            "10:30 Am",
-                                            17,
-                                            Colors.black,
-                                            FontWeight.bold,
-                                                letterSpace: 1,
-                                          ))),
+                                            child: Text(
+                                              "09:30 Am",
+                                              style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
@@ -285,13 +300,16 @@ class _OppointmentState extends State<Oppointment> {
                                           height: 60,
                                           width: 110,
                                           child: Center(
-                                              child: TextWidget(
-                                            "11:00 Am",
-                                            17,
-                                            Colors.black,
-                                            FontWeight.bold,
-                                                letterSpace: 1,
-                                          ))),
+                                            child: Text(
+                                              "09:30 Am",
+                                              style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
@@ -310,13 +328,16 @@ class _OppointmentState extends State<Oppointment> {
                                           height: 60,
                                           width: 110,
                                           child: Center(
-                                              child: TextWidget(
-                                            "12:00 Pm",
-                                            17,
-                                            Colors.black,
-                                            FontWeight.bold,
-                                                letterSpace: 1,
-                                          ))),
+                                            child: Text(
+                                              "09:30 Am",
+                                              style: TextStyle(
+                                                fontFamily: 'Helvetica',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          )),
                                     ),
                                   ),
                                 ),
@@ -472,7 +493,8 @@ class _OppointmentState extends State<Oppointment> {
                                                     ],
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
-                                                        image: images[widget.index])),
+                                                        image: images[
+                                                            widget.index])),
                                               )),
                                         ],
                                       ));
@@ -489,12 +511,13 @@ class _OppointmentState extends State<Oppointment> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  TextWidget(
+                                  Text(
                                     "Book an appointment",
-                                    18,
-                                    Colors.white,
-                                    FontWeight.w500,
-                                    letterSpace: 1,
+                                    style: TextStyle(
+                                      fontFamily: 'Helvetica',
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 4,
