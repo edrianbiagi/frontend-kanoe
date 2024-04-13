@@ -9,6 +9,22 @@ part of 'app_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AppController on _AppControllerBase, Store {
+  late final _$alunoIdAtom =
+      Atom(name: '_AppControllerBase.alunoId', context: context);
+
+  @override
+  String get alunoId {
+    _$alunoIdAtom.reportRead();
+    return super.alunoId;
+  }
+
+  @override
+  set alunoId(String value) {
+    _$alunoIdAtom.reportWrite(value, super.alunoId, () {
+      super.alunoId = value;
+    });
+  }
+
   late final _$convidadoAtom =
       Atom(name: '_AppControllerBase.convidado', context: context);
 
@@ -27,6 +43,17 @@ mixin _$AppController on _AppControllerBase, Store {
 
   late final _$_AppControllerBaseActionController =
       ActionController(name: '_AppControllerBase', context: context);
+
+  @override
+  void updateAlunoId(String id) {
+    final _$actionInfo = _$_AppControllerBaseActionController.startAction(
+        name: '_AppControllerBase.updateAlunoId');
+    try {
+      return super.updateAlunoId(id);
+    } finally {
+      _$_AppControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void addConvidado(String nome) {
@@ -53,6 +80,7 @@ mixin _$AppController on _AppControllerBase, Store {
   @override
   String toString() {
     return '''
+alunoId: ${alunoId},
 convidado: ${convidado}
     ''';
   }

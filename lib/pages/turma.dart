@@ -8,7 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 class Turmas extends StatefulWidget {
-  const Turmas({super.key});
+  const Turmas({Key? key}) : super(key: key);
 
   @override
   State<Turmas> createState() => _TurmasState();
@@ -26,8 +26,8 @@ class _TurmasState extends State<Turmas> {
   void initState() {
     _secureStorage = FlutterSecureStorage();
     _turmaRepository = TurmaRepository(
-        baseUrl:
-            'http://localhost:3000/api'); // Inicializando o repositório aqui
+      baseUrl: 'http://localhost:3000/api',
+    ); // Inicializando o repositório aqui
     _loadTurmas();
     Future.delayed(Duration.zero, () {
       animator();
@@ -124,88 +124,87 @@ class _TurmasState extends State<Turmas> {
               ),
             ),
             AnimatedPositioned(
-                top: 80,
-                right: 10,
-                left: 20,
+              top: 80,
+              right: 10,
+              left: 20,
+              duration: const Duration(milliseconds: 400),
+              child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 400),
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 400),
-                  opacity: opacity,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Container(
-                      height: 90,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.blue.shade700,
-                                Colors.blue.shade900,
-                                Colors.blue.shade900,
-                              ])),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                              top: 10,
-                              left: 20,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Center(
-                                    child: Image(
-                                      width: 70,
-                                      fit: BoxFit.fill,
-                                      image:
-                                          AssetImage('assets/icons/check.png'),
+                opacity: opacity,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Container(
+                    height: 90,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.blue.shade700,
+                              Colors.blue.shade900,
+                              Colors.blue.shade900,
+                            ])),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            top: 10,
+                            left: 20,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Center(
+                                  child: Image(
+                                    width: 70,
+                                    fit: BoxFit.fill,
+                                    image: AssetImage('assets/icons/check.png'),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
+                                    Text(
+                                      'Obrigado!',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                        color: Colors.white,
+                                        fontSize: 20,
                                       ),
-                                      Text(
-                                        'Obrigado!',
-                                        style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Mensalidades em dia!',
-                                            style: TextStyle(
-                                              fontFamily: 'Helvetica',
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Mensalidades em dia!',
+                                          style: TextStyle(
+                                            fontFamily: 'Helvetica',
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 15,
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )),
+                      ],
                     ),
                   ),
-                )),
+                ),
+              ),
+            ),
             AnimatedPositioned(
                 top: 200,
                 left: 30,
@@ -227,27 +226,9 @@ class _TurmasState extends State<Turmas> {
                           ),
                         ),
                         InkWell(
-                          onTap: () async {
-                            animator();
-                            setState(() {});
-                            // Timer(Duration(seconds: 1),() {
-                            //   Navigator.push(context, MaterialPageRoute(builder: (context) => SeeAll(),));
-                            //   animator();
-                            // },);
-                            await Future.delayed(
-                                const Duration(milliseconds: 500));
-                            await Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return SeeAll();
-                              },
-                            ));
-
-                            setState(() {
-                              animator();
-                            });
-                          },
+                          
                           child: Text(
-                            'ver todas',
+                            '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Helvetica',
@@ -261,120 +242,89 @@ class _TurmasState extends State<Turmas> {
                   ),
                 )),
             AnimatedPositioned(
-                top: 240,
-                left: 10,
-                right: 20,
+              top: 240,
+              left: 10,
+              right: 20,
+              duration: const Duration(milliseconds: 400),
+              child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 400),
+                opacity: opacity,
                 child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 400),
                   opacity: opacity,
-                  child: AnimatedOpacity(
-                    opacity: opacity,
-                    duration: const Duration(milliseconds: 300),
-                    child: SizedBox(
-                      height: 350,
-                      width: MediaQuery.of(context).size.width,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ..._turmas.map((turma) => Container(
-                              width: 358,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 20),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
+                  duration: const Duration(milliseconds: 300),
+                  child: SizedBox(
+                    height: 370,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      itemCount: _turmas.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final turma = _turmas[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Agendamento(idTurma: turma.id),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 358,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  turma.nome,
+                                  style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        turma.nome,
-                                        style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Data: ${DateFormat('dd/MM/yyyy').format(turma.data)}, Hora: ${turma.hora}',
-                                        style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Vagas: ${turma.vagasDisponiveis}',
-                                        style: TextStyle(
-                                          fontFamily: 'Helvetica',
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Data: ${DateFormat('dd/MM/yyyy').format(turma.data)}, Hora: ${turma.hora}',
+                                  style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontSize: 16,
                                   ),
-                                )),
-                          ],
-                        ),
-                      ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Vagas: ${turma.vagasDisponiveis}',
+                                  style: TextStyle(
+                                    fontFamily: 'Helvetica',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-
-
-
-  Widget category(String asset, String txt, double padding) {
-    return Column(
-      children: [
-        InkWell(
-          child: Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: Container(
-              padding: EdgeInsets.all(padding),
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Image(
-                  image: AssetImage(asset),
                 ),
               ),
             ),
-          ),
+          ],
         ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          txt,
-          style: TextStyle(
-            fontFamily: 'Helvetica',
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-            fontSize: 25,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

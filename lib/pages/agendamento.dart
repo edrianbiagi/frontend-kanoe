@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:auth_screen/pages/turma.dart';
 import 'package:flutter/material.dart';
 
-class SeeAll extends StatefulWidget {
+class Agendamento extends StatefulWidget {
+  final String? idTurma;
+
+  const Agendamento({Key? key, required this.idTurma}) : super(key: key);
+
   @override
-  State<SeeAll> createState() => _SeeAllState();
+  State<Agendamento> createState() => _AgendamentoState();
 }
 
-class _SeeAllState extends State<SeeAll> {
+class _AgendamentoState extends State<Agendamento> {
   var opacity = 0.0;
   bool position = false;
   int _numberOfGuests =

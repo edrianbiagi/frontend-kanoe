@@ -3,6 +3,7 @@ import 'package:auth_screen/pages/turma.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:auth_screen/app_controller.dart';
 
 class AuthService {
   final Dio _dio;
@@ -35,6 +36,9 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final token = response.data['accessToken'];
+        final idUser = response.data['id'];
+        final appController = AppController();
+        appController.updateAlunoId(idUser);
         await _secureStorage.write(key: 'token', value: token);
         Navigator.pushReplacement(
           context,
