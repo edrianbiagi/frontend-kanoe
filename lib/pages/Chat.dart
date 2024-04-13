@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:auth_screen/pages/Profile.dart';
-import 'package:auth_screen/pages/SeeAll.dart';
+import 'package:auth_screen/pages/agendamento.dart';
 import 'package:flutter/material.dart';
 
 class Chat extends StatefulWidget {

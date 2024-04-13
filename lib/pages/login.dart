@@ -1,4 +1,4 @@
-import 'package:auth_screen/pages/turmas.dart';
+import 'package:auth_screen/pages/turma.dart';
 import 'package:auth_screen/repositories/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:auth_screen/constants.dart';

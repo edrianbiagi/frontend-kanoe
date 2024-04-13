@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:auth_screen/pages/turmas.dart';
+import 'package:auth_screen/pages/turma.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
