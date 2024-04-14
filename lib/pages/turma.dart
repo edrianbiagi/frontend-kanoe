@@ -25,9 +25,7 @@ class _TurmasState extends State<Turmas> {
   @override
   void initState() {
     _secureStorage = FlutterSecureStorage();
-    _turmaRepository = TurmaRepository(
-      baseUrl: 'http://localhost:3000/api',
-    ); // Inicializando o repositório aqui
+    _turmaRepository = TurmaRepository(); 
     _loadTurmas();
     Future.delayed(Duration.zero, () {
       animator();

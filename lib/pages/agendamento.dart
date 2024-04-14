@@ -1,7 +1,9 @@
 import 'dart:async';
 
-import 'package:auth_screen/pages/turma.dart';
+import 'package:auth_screen/repositories/convidado_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:auth_screen/pages/turma.dart';
 
 class Agendamento extends StatefulWidget {
   final String? idTurma;
@@ -15,8 +17,11 @@ class Agendamento extends StatefulWidget {
 class _AgendamentoState extends State<Agendamento> {
   var opacity = 0.0;
   bool position = false;
-  int _numberOfGuests =
-      0; // Variável de classe para armazenar o número de convidados
+  int _numberOfGuests = 0; // Número inicial de convidados
+  final _repositorioConvidado = RepositorioConvidado(
+    armazenamentoSeguro: FlutterSecureStorage(),
+  );
+  List<TextEditingController> _controllers = [];
 
   @override
   void initState() {
@@ -26,15 +31,11 @@ class _AgendamentoState extends State<Agendamento> {
     });
   }
 
-  animator() {
-    if (opacity == 1) {
-      opacity = 0;
-      position = false;
-    } else {
-      opacity = 1;
-      position = true;
-    }
-    setState(() {});
+  void animator() {
+    setState(() {
+      opacity = opacity == 1 ? 0 : 1;
+      position = !position;
+    });
   }
 
   @override
@@ -258,6 +259,16 @@ class _AgendamentoState extends State<Agendamento> {
                     Column(
                       children: _buildGuestInputFields(context),
                     ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => _onFinalizarPressed(context),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                      ),
+                      child: Text('Finalizar',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ],
                 ),
               ),
@@ -270,38 +281,72 @@ class _AgendamentoState extends State<Agendamento> {
 
   List<Widget> _buildGuestInputFields(BuildContext context) {
     List<Widget> fields = [];
-
+    _controllers.clear();
     for (int i = 0; i < _numberOfGuests; i++) {
-      var nameController = TextEditingController();
-
+      _controllers.add(TextEditingController());
       fields.add(
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  hintText: 'Convidado(a) ${i + 1}',
-                   border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: TextField(
+            controller: _controllers[i],
+            decoration: InputDecoration(
+              hintText: 'Convidado(a) ${i + 1}',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
               ),
             ),
-          ],
+          ),
         ),
       );
-      fields.add(SizedBox(height: 16));
     }
-
-    fields.add(ElevatedButton(
-      onPressed: () {},
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-      ),
-      child: Text('Finalizar', style: TextStyle(color: Colors.white)),
-    ));
-
     return fields;
+  }
+
+  void _onFinalizarPressed(BuildContext context) async {
+    List<String> nomesConvidados = _controllers
+        .map((controller) => controller.text.trim())
+        .where((nome) => nome.isNotEmpty)
+        .toList();
+
+    String? idUsuario =
+        "1"; // Substitua "1" pelo ID do usuário logado ou obtenha de outra fonte
+    if (idUsuario != null) {
+      if (nomesConvidados.isNotEmpty) {
+        List<Map<String, dynamic>> convidadosCriados =
+            await _repositorioConvidado.salvarConvidados(
+          nomesConvidados,
+          idUsuario,
+        );
+        if (convidadosCriados.isNotEmpty) {
+          for (var controller in _controllers) {
+            controller.clear();
+          }
+          setState(() {});
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Convidados salvos com sucesso!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Erro ao salvar os convidados.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Insira pelo menos um nome de convidado.'),
+            backgroundColor: Colors.yellow,
+          ),
+        );
+      }
+      Navigator.pop(context); // Fechar o BottomSheet
+    } else {
+      // Tratar caso em que idUsuario é null
+    }
   }
 }

@@ -5,7 +5,6 @@ part 'app_controller.g.dart';
 class AppController = _AppControllerBase with _$AppController;
 
 abstract class _AppControllerBase with Store {
-
   @observable
   String idTurma = '';
 
@@ -23,11 +22,12 @@ abstract class _AppControllerBase with Store {
   }
 
   @observable
-  ObservableList<String> convidado = ObservableList<String>();
+  ObservableList<Map<String, dynamic>> convidado =
+      ObservableList<Map<String, dynamic>>();
 
   @action
-  void addConvidado(String nome) {
-    convidado.add(nome);
+  void addConvidado(String nome, int idConvidado) {
+    convidado.add({'nome': nome, 'id': idConvidado});
   }
 
   @action

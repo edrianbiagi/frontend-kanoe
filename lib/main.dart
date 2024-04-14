@@ -1,10 +1,10 @@
 import 'package:auth_screen/constants.dart';
 import 'package:auth_screen/pages/login.dart';
-import 'package:auth_screen/repositories/auth_services.dart';
+import 'package:auth_screen/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  final authService = AuthService(baseUrl: 'http://localhost:3000/api');
+  final authService = AuthService();
   runApp(MyApp(authService: authService));
 }
 

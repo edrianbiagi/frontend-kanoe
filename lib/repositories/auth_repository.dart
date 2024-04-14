@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:auth_screen/config.dart';
 import 'package:auth_screen/pages/turma.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,11 @@ import 'package:auth_screen/app_controller.dart';
 
 class AuthService {
   final Dio _dio;
-  final String baseUrl;
   final FlutterSecureStorage _secureStorage;
+  final String baseUrl = Config.baseUrl;
 
-  AuthService({required this.baseUrl})
+
+  AuthService()
       : _dio = Dio(),
         _secureStorage = FlutterSecureStorage();
 

@@ -1,14 +1,16 @@
 import 'dart:convert';
+import 'package:auth_screen/config.dart';
 import 'package:auth_screen/model/turmas.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TurmaRepository {
   final Dio _dio;
-  final String baseUrl;
   final FlutterSecureStorage _secureStorage;
+  final String baseUrl = Config.baseUrl;
 
-  TurmaRepository({required this.baseUrl})
+
+  TurmaRepository()
       : _dio = Dio(),
         _secureStorage = FlutterSecureStorage();
 
