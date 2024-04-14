@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:auth_screen/app_controller.dart';
+import 'package:auth_screen/pages/turma.dart';
 import 'package:auth_screen/repositories/convidado_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:auth_screen/pages/turma.dart';
+import 'package:mobx/mobx.dart';
 
 class Agendamento extends StatefulWidget {
   final String? idTurma;
@@ -17,11 +20,12 @@ class Agendamento extends StatefulWidget {
 class _AgendamentoState extends State<Agendamento> {
   var opacity = 0.0;
   bool position = false;
-  int _numberOfGuests = 0; // Número inicial de convidados
+  int _numberOfGuests = 0;
   final _repositorioConvidado = RepositorioConvidado(
     armazenamentoSeguro: FlutterSecureStorage(),
   );
   List<TextEditingController> _controllers = [];
+  final appController = AppController();
 
   @override
   void initState() {
@@ -42,65 +46,68 @@ class _AgendamentoState extends State<Agendamento> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        padding: EdgeInsets.only(top: 70),
-        height: size.height,
-        width: size.width,
-        child: Stack(
+        body: Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(top: 70),
+      height: size.height,
+      width: size.width,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 400),
+        opacity: opacity,
+        child: Column(
           children: [
-            AnimatedPositioned(
-              duration: Duration(milliseconds: 400),
-              top: position ? 1 : 50,
-              left: 20,
-              right: 20,
-              child: upperRow(),
+            toolbar(),
+            SizedBox(
+              height: 30,
             ),
-            AnimatedPositioned(
-              top: position ? 60 : 120,
-              right: 20,
-              left: 20,
-              duration: Duration(milliseconds: 300),
-              child: addConvidados(),
-            ),
-            AnimatedPositioned(
-              top: 200,
-              right: 20,
-              left: 20,
-              duration: Duration(milliseconds: 400),
-              child: AnimatedOpacity(
-                opacity: opacity,
-                duration: Duration(milliseconds: 400),
-                child: Container(
-                  width: size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Confirma o agendamento?',
-                        style: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 15,
-                        ),
-                      ),
-                      Text(
-                        'ok',
-                        style: TextStyle(
-                          fontFamily: 'Helvetica',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue.shade900,
-                          fontSize: 22,
-                        ),
-                      ),
-                    ],
+            addConvidados(),
+            convidadosSalvos(),
+            confirmaAgendamento()
+          ],
+        ),
+      ),
+    ));
+  }
+
+  Widget toolbar() {
+    return AnimatedOpacity(
+      opacity: opacity,
+      duration: const Duration(milliseconds: 400),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () {
+              animator();
+              Timer(const Duration(milliseconds: 600), () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Turmas(),
                   ),
+                );
+              });
+            },
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Colors.black,
+              size: 25,
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                "Agendamento de aula",
+                style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 15,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -183,38 +190,71 @@ class _AgendamentoState extends State<Agendamento> {
     );
   }
 
-  Widget upperRow() {
-    return AnimatedOpacity(
-      opacity: opacity,
-      duration: const Duration(milliseconds: 400),
+  Widget convidadosSalvos() {
+    return Container(
+      padding: EdgeInsets.all(14),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Meus Convidados:',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 16),
+          Observer(
+            builder: (_) {
+              final convidados = appController.convidado;
+              return Text(
+                convidados.map((convidado) => convidado['nome']).join(', '),
+                style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget confirmaAgendamento() {
+    return Container(
+      padding: EdgeInsets.all(14),
+      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: () {
-              animator();
-              Timer(const Duration(milliseconds: 600), () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Turmas(),
-                  ),
-                );
-              });
-            },
-            child: const Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.black,
-              size: 25,
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 20),
+              backgroundColor: Colors.blue,
+              padding: EdgeInsets.symmetric(
+                  vertical: 15,
+                  horizontal: 20), // Ajuste o padding conforme necessário
             ),
-          ),
-          Text(
-            "Agendamento de aula",
-            style: TextStyle(
-              fontFamily: 'Helvetica',
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 15,
+            onPressed: () {
+              setState(() {});
+            },
+            icon: Icon(
+              Icons.check_circle_outline, // Ícone a ser exibido
+              size: 30, // Tamanho do ícone
+              color: Colors.white, // Cor do ícone
+            ),
+            label: Text(
+              'Finalizar agendamento de aula',
+              style: TextStyle(
+                fontFamily: 'Helvetica',
+                fontWeight: FontWeight.normal,
+                color: Colors.white,
+                fontSize: 16,
+              ),
             ),
           ),
         ],
@@ -308,45 +348,30 @@ class _AgendamentoState extends State<Agendamento> {
         .where((nome) => nome.isNotEmpty)
         .toList();
 
-    String? idUsuario =
-        "1"; // Substitua "1" pelo ID do usuário logado ou obtenha de outra fonte
-    if (idUsuario != null) {
-      if (nomesConvidados.isNotEmpty) {
-        List<Map<String, dynamic>> convidadosCriados =
-            await _repositorioConvidado.salvarConvidados(
-          nomesConvidados,
-          idUsuario,
-        );
-        if (convidadosCriados.isNotEmpty) {
-          for (var controller in _controllers) {
-            controller.clear();
-          }
-          setState(() {});
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Convidados salvos com sucesso!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Erro ao salvar os convidados.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Insira pelo menos um nome de convidado.'),
-            backgroundColor: Colors.yellow,
-          ),
-        );
+    final convidadosCriados = await _repositorioConvidado.salvarConvidados(
+      nomesConvidados,
+    );
+    if (convidadosCriados.isNotEmpty) {
+      appController.convidado.addAll(convidadosCriados);
+      for (var controller in _controllers) {
+        controller.clear();
       }
-      Navigator.pop(context); // Fechar o BottomSheet
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Convidados salvos com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      setState(() {});
     } else {
-      // Tratar caso em que idUsuario é null
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar os convidados.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
+
+    Navigator.pop(context);
   }
 }

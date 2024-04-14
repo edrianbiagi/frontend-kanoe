@@ -13,13 +13,13 @@ mixin _$AppController on _AppControllerBase, Store {
       Atom(name: '_AppControllerBase.idTurma', context: context);
 
   @override
-  String get idTurma {
+  String? get idTurma {
     _$idTurmaAtom.reportRead();
     return super.idTurma;
   }
 
   @override
-  set idTurma(String value) {
+  set idTurma(String? value) {
     _$idTurmaAtom.reportWrite(value, super.idTurma, () {
       super.idTurma = value;
     });
@@ -29,13 +29,13 @@ mixin _$AppController on _AppControllerBase, Store {
       Atom(name: '_AppControllerBase.alunoId', context: context);
 
   @override
-  String get alunoId {
+  String? get alunoId {
     _$alunoIdAtom.reportRead();
     return super.alunoId;
   }
 
   @override
-  set alunoId(String value) {
+  set alunoId(String? value) {
     _$alunoIdAtom.reportWrite(value, super.alunoId, () {
       super.alunoId = value;
     });
@@ -83,7 +83,7 @@ mixin _$AppController on _AppControllerBase, Store {
   }
 
   @override
-  void addConvidado(String nome, int idConvidado) {
+  void addConvidado(String nome, String idConvidado) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
         name: '_AppControllerBase.addConvidado');
     try {

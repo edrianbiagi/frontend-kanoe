@@ -6,10 +6,10 @@ class AppController = _AppControllerBase with _$AppController;
 
 abstract class _AppControllerBase with Store {
   @observable
-  String idTurma = '';
+  String? idTurma;
 
   @observable
-  String alunoId = '';
+  String? alunoId;
 
   @action
   void updateAlunoId(String id) {
@@ -26,7 +26,7 @@ abstract class _AppControllerBase with Store {
       ObservableList<Map<String, dynamic>>();
 
   @action
-  void addConvidado(String nome, int idConvidado) {
+  void addConvidado(String nome, String idConvidado) {
     convidado.add({'nome': nome, 'id': idConvidado});
   }
 
