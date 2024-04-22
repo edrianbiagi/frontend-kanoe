@@ -6,24 +6,25 @@ class AppController = _AppControllerBase with _$AppController;
 
 abstract class _AppControllerBase with Store {
   @observable
-  String? idTurma;
+  String alunoId = ''; 
 
   @observable
-  String? alunoId;
-
-  @action
-  void updateAlunoId(String id) {
-    alunoId = id;
-  }
-
-  @action
-  void updateIdTurma(String id) {
-    idTurma = id;
-  }
+  String errorMessage = ''; 
 
   @observable
-  ObservableList<Map<String, dynamic>> convidado =
-      ObservableList<Map<String, dynamic>>();
+  int? statusCode; 
+
+  @action
+  updateStatusCode(value) => statusCode = value;
+
+  @action
+  updateErrorMessage(value) => errorMessage = value;
+
+  @action
+  updateAlunoId(value) => alunoId = value;
+
+  @observable
+  ObservableList<Map<String, dynamic>> convidado = ObservableList<Map<String, dynamic>>();
 
   @action
   void addConvidado(String nome, String idConvidado) {
@@ -31,7 +32,7 @@ abstract class _AppControllerBase with Store {
   }
 
   @action
-  void removeConvidado(String nome) {
-    convidado.remove(nome);
+  void removeConvidado(String idConvidado) {
+    convidado.removeWhere((convidado) => convidado['id'] == idConvidado);
   }
 }

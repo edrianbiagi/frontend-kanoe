@@ -30,7 +30,6 @@ class AuthService {
             'Content-Type': 'application/json; charset=UTF-8',
           },
           validateStatus: (status) {
-            // Retorna true se o status for 200, 401 ou qualquer outro código de status que você deseja tratar explicitamente
             return status == 200 || status == 401;
           },
         ),
@@ -39,18 +38,17 @@ class AuthService {
       if (response.statusCode == 200) {
         final token = response.data['accessToken'];
         final idUser = response.data['id'];
-        final appController = AppController();
-        appController.updateAlunoId(idUser);
         await _secureStorage.write(key: 'token', value: token);
+        await _secureStorage.write(key: 'aluno', value: idUser);
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Turmas()),
         );
       } else if (response.statusCode == 401) {
-        // Se o status da resposta for 401 (Unauthorized), significa que as credenciais estão incorretas
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login falhou. Verifique suas credenciais.'),
+            content: Text('Login e/ou senha inválido(s). Verifique suas credenciais!'),
             backgroundColor: Colors.red,
           ),
         );

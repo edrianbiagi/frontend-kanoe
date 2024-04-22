@@ -9,35 +9,51 @@ part of 'app_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AppController on _AppControllerBase, Store {
-  late final _$idTurmaAtom =
-      Atom(name: '_AppControllerBase.idTurma', context: context);
-
-  @override
-  String? get idTurma {
-    _$idTurmaAtom.reportRead();
-    return super.idTurma;
-  }
-
-  @override
-  set idTurma(String? value) {
-    _$idTurmaAtom.reportWrite(value, super.idTurma, () {
-      super.idTurma = value;
-    });
-  }
-
   late final _$alunoIdAtom =
       Atom(name: '_AppControllerBase.alunoId', context: context);
 
   @override
-  String? get alunoId {
+  String get alunoId {
     _$alunoIdAtom.reportRead();
     return super.alunoId;
   }
 
   @override
-  set alunoId(String? value) {
+  set alunoId(String value) {
     _$alunoIdAtom.reportWrite(value, super.alunoId, () {
       super.alunoId = value;
+    });
+  }
+
+  late final _$errorMessageAtom =
+      Atom(name: '_AppControllerBase.errorMessage', context: context);
+
+  @override
+  String get errorMessage {
+    _$errorMessageAtom.reportRead();
+    return super.errorMessage;
+  }
+
+  @override
+  set errorMessage(String value) {
+    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
+      super.errorMessage = value;
+    });
+  }
+
+  late final _$statusCodeAtom =
+      Atom(name: '_AppControllerBase.statusCode', context: context);
+
+  @override
+  int? get statusCode {
+    _$statusCodeAtom.reportRead();
+    return super.statusCode;
+  }
+
+  @override
+  set statusCode(int? value) {
+    _$statusCodeAtom.reportWrite(value, super.statusCode, () {
+      super.statusCode = value;
     });
   }
 
@@ -61,22 +77,33 @@ mixin _$AppController on _AppControllerBase, Store {
       ActionController(name: '_AppControllerBase', context: context);
 
   @override
-  void updateAlunoId(String id) {
+  dynamic updateStatusCode(dynamic value) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
-        name: '_AppControllerBase.updateAlunoId');
+        name: '_AppControllerBase.updateStatusCode');
     try {
-      return super.updateAlunoId(id);
+      return super.updateStatusCode(value);
     } finally {
       _$_AppControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void updateIdTurma(String id) {
+  dynamic updateErrorMessage(dynamic value) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
-        name: '_AppControllerBase.updateIdTurma');
+        name: '_AppControllerBase.updateErrorMessage');
     try {
-      return super.updateIdTurma(id);
+      return super.updateErrorMessage(value);
+    } finally {
+      _$_AppControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updateAlunoId(dynamic value) {
+    final _$actionInfo = _$_AppControllerBaseActionController.startAction(
+        name: '_AppControllerBase.updateAlunoId');
+    try {
+      return super.updateAlunoId(value);
     } finally {
       _$_AppControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -94,11 +121,11 @@ mixin _$AppController on _AppControllerBase, Store {
   }
 
   @override
-  void removeConvidado(String nome) {
+  void removeConvidado(String idConvidado) {
     final _$actionInfo = _$_AppControllerBaseActionController.startAction(
         name: '_AppControllerBase.removeConvidado');
     try {
-      return super.removeConvidado(nome);
+      return super.removeConvidado(idConvidado);
     } finally {
       _$_AppControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -107,8 +134,9 @@ mixin _$AppController on _AppControllerBase, Store {
   @override
   String toString() {
     return '''
-idTurma: ${idTurma},
 alunoId: ${alunoId},
+errorMessage: ${errorMessage},
+statusCode: ${statusCode},
 convidado: ${convidado}
     ''';
   }

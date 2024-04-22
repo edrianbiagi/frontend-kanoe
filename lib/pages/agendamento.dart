@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:auth_screen/app_controller.dart';
 import 'package:auth_screen/pages/turma.dart';
+import 'package:auth_screen/repositories/agendamento_repository.dart';
 import 'package:auth_screen/repositories/convidado_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -24,8 +26,11 @@ class _AgendamentoState extends State<Agendamento> {
   final _repositorioConvidado = RepositorioConvidado(
     armazenamentoSeguro: FlutterSecureStorage(),
   );
+  final _repositorioAgendamento = AgendamentoRepository(
+    armazenamentoSeguro: FlutterSecureStorage(),
+  );
   List<TextEditingController> _controllers = [];
-  final appController = AppController();
+  final AppController appController = AppController();
 
   @override
   void initState() {
@@ -208,15 +213,17 @@ class _AgendamentoState extends State<Agendamento> {
           Observer(
             builder: (_) {
               final convidados = appController.convidado;
-              return Text(
-                convidados.map((convidado) => convidado['nome']).join(', '),
-                style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black,
-                  fontSize: 15,
+              return Row(children: [
+                Text(
+                  convidados.map((convidado) => convidado['nome']).join(', '),
+                  style: TextStyle(
+                    fontFamily: 'Helvetica',
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
                 ),
-              );
+              ]);
             },
           ),
         ],
@@ -236,16 +243,58 @@ class _AgendamentoState extends State<Agendamento> {
               textStyle: const TextStyle(fontSize: 20),
               backgroundColor: Colors.blue,
               padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 20), // Ajuste o padding conforme necessário
+                vertical: 15,
+                horizontal: 20,
+              ),
             ),
-            onPressed: () {
-              setState(() {});
+            onPressed: () async {
+              List<Map<String, dynamic>> convidados = [];
+
+              try {
+                final Map<String, dynamic> result =
+                    await _repositorioAgendamento.finalizarAgendamento(
+                  widget.idTurma!,
+                  convidados,
+                );
+
+                final statusCode = result['statusCode'];
+                final errorMessage = result['errorMessage'];
+
+                if (statusCode == 201) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Agendamento finalizado com sucesso!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Turmas(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(errorMessage ?? 'Erro desconhecido'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              } catch (error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Erro ao finalizar o agendamento: $error'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             },
             icon: Icon(
-              Icons.check_circle_outline, // Ícone a ser exibido
-              size: 30, // Tamanho do ícone
-              color: Colors.white, // Cor do ícone
+              Icons.check_circle_outline,
+              size: 30,
+              color: Colors.white,
             ),
             label: Text(
               'Finalizar agendamento de aula',
@@ -256,7 +305,7 @@ class _AgendamentoState extends State<Agendamento> {
                 fontSize: 16,
               ),
             ),
-          ),
+          )
         ],
       ),
     );

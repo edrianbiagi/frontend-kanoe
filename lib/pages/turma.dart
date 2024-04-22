@@ -116,7 +116,7 @@ class _TurmasState extends State<Turmas> {
                         ),
                       ],
                     ),
-                    const Icon(Icons.phonelink_ring)
+                    const Icon(Icons.exit_to_app)
                   ],
                 ),
               ),
