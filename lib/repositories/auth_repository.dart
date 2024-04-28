@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'package:auth_screen/config.dart';
-import 'package:auth_screen/pages/turma.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:auth_screen/app_controller.dart';
 
 class AuthService {
   final Dio _dio;
   final FlutterSecureStorage _secureStorage;
   final String baseUrl = Config.baseUrl;
-
 
   AuthService()
       : _dio = Dio(),
@@ -38,37 +35,24 @@ class AuthService {
       if (response.statusCode == 200) {
         final token = response.data['accessToken'];
         final idUser = response.data['id'];
-        await _secureStorage.write(key: 'token', value: token);
-        await _secureStorage.write(key: 'aluno', value: idUser);
+        final idAluno = response.data['alunoId'];
+        final mensalidadeAtrasada = response.data['mensalidadesAtrasadas'];
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Turmas()),
-        );
+
+        await _secureStorage.write(key: 'token', value: token);
+        await _secureStorage.write(key: 'user', value: idUser);
+        await _secureStorage.write(key: 'aluno', value: idAluno);
+        await _secureStorage.write(key: 'mensalidade_atrasada', value: mensalidadeAtrasada.toString());
+
+        return {'success': true, 'message': 'Login successful'};
       } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login e/ou senha inválido(s). Verifique suas credenciais!'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        return {'success': false, 'message': 'Invalid credentials'};
       } else {
-        // Se o status da resposta for diferente de 200 e 401, algo inesperado aconteceu
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Ocorreu um erro. Por favor, tente novamente mais tarde.'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        return {'success': false, 'message': 'Unexpected error'};
       }
     } catch (error) {
       print('Error during sign in: $error');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Ocorreu um erro. Por favor, tente novamente mais tarde.'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      return {'success': false, 'message': 'Unexpected error'};
     }
   }
 }

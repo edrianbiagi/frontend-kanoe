@@ -51,11 +51,9 @@ class Login extends StatelessWidget {
                       ),
                       border: InputBorder.none,
                     ),
-                    keyboardType: TextInputType
-                        .number,
+                    keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter
-                          .digitsOnly, 
+                      FilteringTextInputFormatter.digitsOnly,
                     ],
                   ),
                 ),
@@ -107,11 +105,21 @@ class Login extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          Map<String, dynamic>? userData =
+                          Map<String, dynamic>? result =
                               await authService.signIn(context, cpf, password);
-
-                          cpfController.clear();
-                          passwordController.clear();
+                          if (result != null && result['success']) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => Turmas()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(result!['message']),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         },
                         child: SvgPicture.asset(
                           "assets/icons/Goarrow.svg",
