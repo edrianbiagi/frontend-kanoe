@@ -1,7 +1,7 @@
-import 'package:auth_screen/constants.dart';
-import 'package:auth_screen/pages/login.dart';
-import 'package:auth_screen/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:kanoevaa/constants.dart';
+import 'package:kanoevaa/pages/login.dart';
+import 'package:kanoevaa/repositories/auth_repository.dart';
 
 void main() {
   final authService = AuthService();

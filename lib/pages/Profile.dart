@@ -1,15 +1,12 @@
 import 'dart:async';
-import 'package:auth_screen/pages/Oppointment.dart';
-import 'package:auth_screen/res/lists.dart';
 import 'package:flutter/material.dart';
+import 'package:kanoevaa/pages/Oppointment.dart';
+import 'package:kanoevaa/res/lists.dart';
 
 class Profile extends StatefulWidget {
   final String name;
   final String speciality;
-  const Profile(
-      {super.key,
-      required this.name,
-      required this.speciality});
+  const Profile({super.key, required this.name, required this.speciality});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -61,7 +58,6 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     height: size.height / 2,
                     width: size.width,
-                    
                   ),
                 )),
             AnimatedPositioned(

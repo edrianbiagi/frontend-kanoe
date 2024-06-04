@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:auth_screen/app_controller.dart';
-import 'package:auth_screen/config.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kanoevaa/app_controller.dart';
+import 'package:kanoevaa/config.dart';
 
 class AgendamentoRepository {
   final Dio _dio;
@@ -103,7 +102,8 @@ class AgendamentoRepository {
         // Se o aluno está agendado, retorne true
         final data = response.data as Map<String, dynamic>;
         await armazenamentoSeguro.write(
-            key: 'aluno_turma', value: (data["agendamentos"][0]["id"]).toString());
+            key: 'aluno_turma',
+            value: (data["agendamentos"][0]["id"]).toString());
         return data['message'] == 'agendado';
       } else {
         return false;

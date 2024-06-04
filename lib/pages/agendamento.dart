@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'package:auth_screen/app_controller.dart';
-import 'package:auth_screen/model/turmas.dart';
-import 'package:auth_screen/pages/turma.dart';
-import 'package:auth_screen/repositories/agendamento_repository.dart';
-import 'package:auth_screen/repositories/convidado_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kanoevaa/app_controller.dart';
+import 'package:kanoevaa/pages/turma.dart';
+import 'package:kanoevaa/repositories/agendamento_repository.dart';
 
 class Agendamento extends StatefulWidget {
   final String? idTurma;
@@ -137,7 +134,6 @@ class _AgendamentoState extends State<Agendamento> {
               ),
             ),
             onPressed: () async {
-
               try {
                 final bool success =
                     await _repositorioAgendamento.desagendarAula();

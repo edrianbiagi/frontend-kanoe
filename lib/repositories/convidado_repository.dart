@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:auth_screen/app_controller.dart';
-import 'package:auth_screen/config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kanoevaa/app_controller.dart';
+import 'package:kanoevaa/config.dart';
 
 class RepositorioConvidado {
   final appController = AppController();
@@ -18,7 +18,7 @@ class RepositorioConvidado {
     try {
       String? token = await armazenamentoSeguro.read(key: 'token');
 
-      if (token == null ) {
+      if (token == null) {
         return [];
       }
 
@@ -29,8 +29,7 @@ class RepositorioConvidado {
         return [];
       }
 
-      String corpoRequisicao =
-          json.encode({"nomes": nomesValidos});
+      String corpoRequisicao = json.encode({"nomes": nomesValidos});
 
       Options opcoes = Options(headers: {
         "Content-Type": "application/json",

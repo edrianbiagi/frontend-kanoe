@@ -1,10 +1,12 @@
-import 'package:auth_screen/pages/turma.dart';
-import 'package:auth_screen/repositories/auth_repository.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:auth_screen/constants.dart';
-import 'package:auth_screen/widgets/background_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kanoevaa/constants.dart';
+import 'package:kanoevaa/pages/cadastro_aluno.dart';
+import 'package:kanoevaa/pages/turma.dart';
+import 'package:kanoevaa/repositories/auth_repository.dart';
+import 'package:kanoevaa/widgets/background_image.dart';
 
 class Login extends StatelessWidget {
   final AuthService authService;
@@ -30,13 +32,14 @@ class Login extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Spacer(),
+                SizedBox(
+                  height: 40,
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(66, 221, 219, 219),
-                    borderRadius:
-                        BorderRadius.circular(20), // Define o raio dos cantos
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextField(
                     controller: cpfController,
@@ -51,19 +54,18 @@ class Login extends StatelessWidget {
                       ),
                       border: InputBorder.none,
                     ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
+                    inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
+                      CpfInputFormatter(),
                     ],
                   ),
                 ),
                 SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(66, 221, 219, 219),
-                    borderRadius:
-                        BorderRadius.circular(20), // Define o raio dos cantos
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextField(
                     controller: passwordController,
@@ -81,7 +83,6 @@ class Login extends StatelessWidget {
                     ),
                   ),
                 ),
-                Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -94,7 +95,7 @@ class Login extends StatelessWidget {
                               text: "SIGN IN\n",
                             ),
                             TextSpan(
-                              text: "Esqueceu a senha?",
+                              text: "Esqueci a senha",
                               style: Theme.of(context)
                                   .textTheme
                                   .button!
@@ -123,13 +124,51 @@ class Login extends StatelessWidget {
                         },
                         child: SvgPicture.asset(
                           "assets/icons/Goarrow.svg",
-                          color: Color.fromARGB(66, 0, 0, 0),
+                          color: Color.fromARGB(66, 7, 29, 79),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Spacer(),
+                SizedBox(
+                  height: 50,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CadastroAluno()),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        "Criar Conta",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

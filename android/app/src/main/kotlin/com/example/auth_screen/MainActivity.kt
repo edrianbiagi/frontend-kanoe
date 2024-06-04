@@ -1,4 +1,4 @@
-package com.example.auth_screen
+package com.example.kanoevaa
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

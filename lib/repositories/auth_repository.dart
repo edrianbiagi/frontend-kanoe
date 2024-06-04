@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:auth_screen/config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kanoevaa/config.dart';
 
 class AuthService {
   final Dio _dio;
@@ -17,7 +17,7 @@ class AuthService {
       BuildContext context, String cpf, String password) async {
     try {
       final response = await _dio.post(
-        '${baseUrl}/auth/login',
+        '$baseUrl/auth/login',
         data: jsonEncode(<String, String>{
           'cpf': cpf,
           'password': password,
@@ -38,11 +38,11 @@ class AuthService {
         final idAluno = response.data['alunoId'];
         final mensalidadeAtrasada = response.data['mensalidadesAtrasadas'];
 
-
         await _secureStorage.write(key: 'token', value: token);
         await _secureStorage.write(key: 'user', value: idUser);
         await _secureStorage.write(key: 'aluno', value: idAluno);
-        await _secureStorage.write(key: 'mensalidade_atrasada', value: mensalidadeAtrasada.toString());
+        await _secureStorage.write(
+            key: 'mensalidade_atrasada', value: mensalidadeAtrasada.toString());
 
         return {'success': true, 'message': 'Login successful'};
       } else if (response.statusCode == 401) {

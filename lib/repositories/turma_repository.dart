@@ -1,18 +1,12 @@
-import 'dart:convert';
-import 'package:auth_screen/config.dart';
-import 'package:auth_screen/model/turmas.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:kanoevaa/config.dart';
+import 'package:kanoevaa/model/turmas.dart';
 
 class TurmaRepository {
   final Dio _dio;
-  final FlutterSecureStorage _secureStorage;
   final String baseUrl = Config.baseUrl;
 
-
-  TurmaRepository()
-      : _dio = Dio(),
-        _secureStorage = FlutterSecureStorage();
+  TurmaRepository() : _dio = Dio();
 
   Future<List<Turma>> buscarTurmas(String token) async {
     try {

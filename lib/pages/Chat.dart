@@ -1,16 +1,11 @@
 import 'dart:async';
-import 'package:auth_screen/pages/Profile.dart';
-import 'package:auth_screen/pages/agendamento.dart';
 import 'package:flutter/material.dart';
+import 'package:kanoevaa/pages/Profile.dart';
 
 class Chat extends StatefulWidget {
   final String name;
   final String specialist;
-  const Chat(
-      {super.key,
-      
-      required this.name,
-      required this.specialist});
+  const Chat({super.key, required this.name, required this.specialist});
   @override
   State<Chat> createState() => _ChatState();
 }
@@ -82,9 +77,7 @@ class _ChatState extends State<Chat> {
                                     onTap: () {
                                       animator();
                                       Timer(const Duration(milliseconds: 500),
-                                          () {
-                                       
-                                      });
+                                          () {});
                                     },
                                     child: const Icon(
                                       Icons.arrow_back_ios_new_sharp,
@@ -100,7 +93,6 @@ class _ChatState extends State<Chat> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => Profile(
-                                                
                                                 name: widget.name,
                                                 speciality: widget.specialist),
                                           ));
@@ -109,7 +101,6 @@ class _ChatState extends State<Chat> {
                                     child: CircleAvatar(
                                       radius: 25,
                                       backgroundColor: Colors.blue,
-                                     
                                     ),
                                   ),
                                   Column(

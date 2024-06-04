@@ -1,5 +1,5 @@
-import 'package:auth_screen/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:kanoevaa/constants.dart';
 
 Stack backgroundImage() {
   return Stack(

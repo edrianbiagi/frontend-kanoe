@@ -1,13 +1,11 @@
 import 'dart:async';
-
-import 'package:auth_screen/app_controller.dart';
-import 'package:auth_screen/model/turmas.dart';
-import 'package:auth_screen/pages/agendamento.dart';
-import 'package:auth_screen/repositories/auth_repository.dart';
-import 'package:auth_screen/repositories/turma_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:kanoevaa/model/turmas.dart';
+import 'package:kanoevaa/pages/agendamento.dart';
+import 'package:kanoevaa/repositories/auth_repository.dart';
+import 'package:kanoevaa/repositories/turma_repository.dart';
 
 import 'login.dart';
 
@@ -72,37 +70,37 @@ class _TurmasState extends State<Turmas> {
     setState(() {});
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Seu Título'),
-    ),
-    body: FutureBuilder<String?>(
-      future: mensalidadeAtrasada(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // Se ainda estiver carregando, exiba um indicador de carregamento
-          return _buildLoading();
-        } else if (snapshot.hasError) {
-          // Se ocorrer um erro, exiba uma mensagem de erro
-          return Center(child: Text('Erro ao carregar atrasos: ${snapshot.error}'));
-        } else {
-          // Caso contrário, verifique o valor retornado
-          final mensalidadeAtrasada = int.tryParse(snapshot.data ?? '0') ?? 0;
-          if (mensalidadeAtrasada == 0) {
-            // Se não houver mensalidades atrasadas, exiba a lista de turmas
-            return _buildTurmaList();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Seu Título'),
+      ),
+      body: FutureBuilder<String?>(
+        future: mensalidadeAtrasada(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Se ainda estiver carregando, exiba um indicador de carregamento
+            return _buildLoading();
+          } else if (snapshot.hasError) {
+            // Se ocorrer um erro, exiba uma mensagem de erro
+            return Center(
+                child: Text('Erro ao carregar atrasos: ${snapshot.error}'));
           } else {
-            // Se houver mensalidades atrasadas, exiba o widget correspondente
-            return _mensalidadeAtraso();
+            // Caso contrário, verifique o valor retornado
+            final mensalidadeAtrasada = int.tryParse(snapshot.data ?? '0') ?? 0;
+            if (mensalidadeAtrasada == 0) {
+              // Se não houver mensalidades atrasadas, exiba a lista de turmas
+              return _buildTurmaList();
+            } else {
+              // Se houver mensalidades atrasadas, exiba o widget correspondente
+              return _mensalidadeAtraso();
+            }
           }
-        }
-      },
-    ),
-  );
-}
-
+        },
+      ),
+    );
+  }
 
   Widget _buildLoading() {
     return Center(
@@ -110,7 +108,7 @@ Widget build(BuildContext context) {
     );
   }
 
-    Widget _mensalidadeAtraso() {
+  Widget _mensalidadeAtraso() {
     return SafeArea(
       child: Container(
         color: Colors.white,
@@ -210,7 +208,8 @@ Widget build(BuildContext context) {
                                   child: Image(
                                     width: 70,
                                     fit: BoxFit.fill,
-                                    image: AssetImage('assets/icons/cancel.png'),
+                                    image:
+                                        AssetImage('assets/icons/cancel.png'),
                                   ),
                                 ),
                                 const SizedBox(
@@ -249,13 +248,11 @@ Widget build(BuildContext context) {
                                 )
                               ],
                             )),
-                            
                       ],
                     ),
                   ),
                 ),
               ),
-              
             ),
             AnimatedPositioned(
                 top: 200,
@@ -277,7 +274,9 @@ Widget build(BuildContext context) {
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           'Identificamos que há débitos em aberto em sua conta. É importante resolver essa questão para garantir o acesso contínuo aos serviços.',
                           style: TextStyle(
@@ -286,7 +285,9 @@ Widget build(BuildContext context) {
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           'Por favor, entre em contato conosco o mais breve possível para regularizar a situação.',
                           style: TextStyle(
@@ -299,8 +300,6 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 )),
-                
-            
           ],
         ),
       ),
