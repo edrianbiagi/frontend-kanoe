@@ -4,14 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kanoevaa/constants.dart';
 import 'package:kanoevaa/pages/cadastro_aluno.dart';
-import 'package:kanoevaa/pages/turma.dart';
+import 'package:kanoevaa/pages/alunos/turma.dart';
 import 'package:kanoevaa/repositories/auth_repository.dart';
 import 'package:kanoevaa/widgets/background_image.dart';
 
 class Login extends StatelessWidget {
-  final AuthService authService;
-
-  Login({required this.authService});
+  AuthRepository authRepository = AuthRepository();
 
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -94,20 +92,20 @@ class Login extends StatelessWidget {
                             TextSpan(
                               text: "SIGN IN\n",
                             ),
-                            TextSpan(
-                              text: "Esqueci a senha",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button!
-                                  .copyWith(color: kSecondaryColor),
-                            )
+                            // TextSpan(
+                            //   text: "Esqueci a senha",
+                            //   style: Theme.of(context)
+                            //       .textTheme
+                            //       .button!
+                            //       .copyWith(color: kSecondaryColor),
+                            // )
                           ],
                         ),
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          Map<String, dynamic>? result =
-                              await authService.signIn(context, cpf, password);
+                          Map<String, dynamic>? result = await authRepository
+                              .login(context, cpf, password);
                           if (result != null && result['success']) {
                             Navigator.pushReplacement(
                               context,
@@ -142,7 +140,8 @@ class Login extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CadastroAluno()),
+                            builder: (context) => CadastroAluno(),
+                          ),
                         );
                       },
                       icon: Icon(

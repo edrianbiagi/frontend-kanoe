@@ -12,8 +12,6 @@ import 'package:kanoevaa/repositories/auth_repository.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    final AuthService? authService;
-
     // Build our app and trigger a frame.
     //await tester.pumpWidget(MyApp(authService: authService,));
 

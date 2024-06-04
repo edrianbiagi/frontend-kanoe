@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:kanoevaa/model/turmas.dart';
-import 'package:kanoevaa/pages/agendamento.dart';
-import 'package:kanoevaa/repositories/auth_repository.dart';
+import 'package:kanoevaa/pages/alunos/agendamento.dart';
 import 'package:kanoevaa/repositories/turma_repository.dart';
 
-import 'login.dart';
+import '../login.dart';
 
 class Turmas extends StatefulWidget {
   const Turmas({
@@ -19,6 +18,8 @@ class Turmas extends StatefulWidget {
 }
 
 class _TurmasState extends State<Turmas> {
+  late String _nomeUsuario = '';
+
   late final TurmaRepository _turmaRepository;
   late final FlutterSecureStorage _secureStorage;
   List<Turma> _turmas = [];
@@ -30,12 +31,26 @@ class _TurmasState extends State<Turmas> {
   void initState() {
     _secureStorage = FlutterSecureStorage();
     _turmaRepository = TurmaRepository();
+    _loadNomeUsuario();
     mensalidadeAtrasada();
     _loadTurmas();
     Future.delayed(Duration.zero, () {
       animator();
       setState(() {});
     });
+  }
+
+  Future<void> _loadNomeUsuario() async {
+    try {
+      String? nome = await _secureStorage.read(key: 'nomeUser');
+      if (nome != null) {
+        setState(() {
+          _nomeUsuario = nome;
+        });
+      }
+    } catch (error) {
+      print('Erro ao carregar nome do usuário: $error');
+    }
   }
 
   Future<String?> mensalidadeAtrasada() async {
@@ -73,9 +88,6 @@ class _TurmasState extends State<Turmas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Seu Título'),
-      ),
       body: FutureBuilder<String?>(
         future: mensalidadeAtrasada(),
         builder: (context, snapshot) {
@@ -141,7 +153,7 @@ class _TurmasState extends State<Turmas> {
                           ),
                         ),
                         Text(
-                          'Edrian',
+                          _nomeUsuario.isNotEmpty ? _nomeUsuario : 'Olá!',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Helvetica',
@@ -160,9 +172,7 @@ class _TurmasState extends State<Turmas> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(
-                              authService: AuthService(),
-                            ),
+                            builder: (context) => Login(),
                           ),
                         );
                       },
@@ -339,7 +349,7 @@ class _TurmasState extends State<Turmas> {
                           ),
                         ),
                         Text(
-                          'Edrian',
+                          _nomeUsuario.isNotEmpty ? _nomeUsuario : 'Olá!',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Helvetica',
@@ -358,9 +368,7 @@ class _TurmasState extends State<Turmas> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(
-                              authService: AuthService(),
-                            ),
+                            builder: (context) => Login(),
                           ),
                         );
                       },
@@ -464,7 +472,7 @@ class _TurmasState extends State<Turmas> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Turmas Disponíveis',
+                          'Turmas Disponíveis do dia:',
                           style: TextStyle(
                             fontFamily: 'Helvetica',
                             color: Colors.black.withOpacity(.8),

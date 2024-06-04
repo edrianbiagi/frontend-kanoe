@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kanoevaa/config.dart';
 
-class AuthService {
+class AuthRepository {
   final Dio _dio;
   final FlutterSecureStorage _secureStorage;
   final String baseUrl = Config.baseUrl;
 
-  AuthService()
+  AuthRepository()
       : _dio = Dio(),
         _secureStorage = FlutterSecureStorage();
 
-  Future<Map<String, dynamic>?> signIn(
+  Future<Map<String, dynamic>?> login(
       BuildContext context, String cpf, String password) async {
     try {
       final response = await _dio.post(
@@ -35,11 +35,13 @@ class AuthService {
       if (response.statusCode == 200) {
         final token = response.data['accessToken'];
         final idUser = response.data['id'];
+        final nomeUsuario = response.data['nome'];
         final idAluno = response.data['alunoId'];
         final mensalidadeAtrasada = response.data['mensalidadesAtrasadas'];
 
         await _secureStorage.write(key: 'token', value: token);
         await _secureStorage.write(key: 'user', value: idUser);
+        await _secureStorage.write(key: 'nomeUser', value: nomeUsuario);
         await _secureStorage.write(key: 'aluno', value: idAluno);
         await _secureStorage.write(
             key: 'mensalidade_atrasada', value: mensalidadeAtrasada.toString());

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kanoevaa/app_controller.dart';
-import 'package:kanoevaa/pages/turma.dart';
+import 'package:kanoevaa/constants.dart';
+import 'package:kanoevaa/pages/login.dart';
+import 'package:kanoevaa/pages/alunos/turma.dart';
 import 'package:kanoevaa/repositories/agendamento_repository.dart';
 
 class Agendamento extends StatefulWidget {
@@ -15,6 +17,7 @@ class Agendamento extends StatefulWidget {
 }
 
 class _AgendamentoState extends State<Agendamento> {
+  late final FlutterSecureStorage _secureStorage;
   var opacity = 0.0;
   bool alunoAgendado = false;
   bool position = false;
@@ -28,6 +31,7 @@ class _AgendamentoState extends State<Agendamento> {
   @override
   void initState() {
     super.initState();
+    _secureStorage = FlutterSecureStorage();
     _verificarAgendamentoAluno();
     Future.delayed(Duration.zero, () {
       animator();
@@ -55,7 +59,6 @@ class _AgendamentoState extends State<Agendamento> {
     return Scaffold(
         body: Container(
       color: Colors.white,
-      padding: EdgeInsets.only(top: 70),
       height: size.height,
       width: size.width,
       child: AnimatedOpacity(
@@ -75,45 +78,48 @@ class _AgendamentoState extends State<Agendamento> {
   }
 
   Widget toolbar() {
-    return AnimatedOpacity(
-      opacity: opacity,
-      duration: const Duration(milliseconds: 400),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () {
-              animator();
-              Timer(const Duration(milliseconds: 600), () {
-                Navigator.pushReplacement(
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_left,
+          color: kWhiteColor,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Text(
+        'Informações sobre a aula',
+        style: TextStyle(
+          fontSize: 16,
+          color: kWhiteColor,
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: IconButton(
+            icon: Icon(
+              Icons.exit_to_app,
+              color: kWhiteColor,
+            ),
+            onPressed: () async {
+              if (_secureStorage != null) {
+                await _secureStorage.delete(key: 'token');
+                await _secureStorage.delete(key: 'aluno');
+
+                await Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Turmas(),
+                    builder: (context) => Login(),
                   ),
                 );
-              });
+              }
             },
-            child: const Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.black,
-              size: 25,
-            ),
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                "Agendamento de aula",
-                style: TextStyle(
-                  fontFamily: 'Helvetica',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
+      backgroundColor: kSecondaryColor,
     );
   }
 
@@ -121,18 +127,16 @@ class _AgendamentoState extends State<Agendamento> {
     return Container(
       padding: EdgeInsets.all(14),
       color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20),
-              backgroundColor: Colors.blue,
-              padding: EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 20,
-              ),
-            ),
+          Text(
+            "Deseja desagendar essa aula?",
+            textAlign: TextAlign.left, // Alinha o texto à esquerda
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
             onPressed: () async {
               try {
                 final bool success =
@@ -167,13 +171,18 @@ class _AgendamentoState extends State<Agendamento> {
                 );
               }
             },
-            icon: Icon(
-              Icons.cancel_outlined,
-              size: 30,
-              color: Colors.red,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Colors.red), // Cor de fundo vermelha
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(8.0), // Diminuindo a borda
+                ),
+              ),
             ),
-            label: Text(
-              'Finalizar agendamento de aula',
+            child: Text(
+              'Desagendar',
               style: TextStyle(
                 fontFamily: 'Helvetica',
                 fontWeight: FontWeight.normal,
@@ -181,7 +190,7 @@ class _AgendamentoState extends State<Agendamento> {
                 fontSize: 16,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

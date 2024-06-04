@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kanoevaa/app_controller.dart';
 import 'package:kanoevaa/config.dart';
@@ -21,6 +22,7 @@ class CadastroAlunoRepository {
   }
 
   Future<Map<String, dynamic>> cadAluno({
+    required BuildContext context,
     required String nome,
     required String email,
     required String telefone,
@@ -31,9 +33,10 @@ class CadastroAlunoRepository {
     required String dtInicio,
     required String numEmergencia,
     required String nomeEmergencia,
+    String? planoSaude,
     String? obsPatologica,
     String? tratamentoMedico,
-    required String obsGerais,
+    String? obsGerais,
     required String sexo,
     required double valorMensalidade,
     required int diaVencimento,
@@ -49,6 +52,7 @@ class CadastroAlunoRepository {
       "dt_nascimento": dtNascimento,
       "profissao": profissao,
       "dt_inicio": dtInicio,
+      "plano_saude": planoSaude,
       "num_emergencia": numEmergencia,
       "nome_emergencia": nomeEmergencia,
       "obs_patologica": obsPatologica,
@@ -68,8 +72,6 @@ class CadastroAlunoRepository {
         '/alunos/novoAluno',
         data: json.encode(body),
       );
-
-      print(response);
 
       if (response.statusCode == 201) {
         return {'statusCode': response.statusCode, 'errorMessage': null};

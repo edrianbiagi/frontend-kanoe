@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:kanoevaa/pages/Profile.dart';
+import 'package:kanoevaa/pages/alunos/Profile.dart';
 
 class Chat extends StatefulWidget {
   final String name;

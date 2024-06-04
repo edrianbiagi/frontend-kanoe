@@ -4,14 +4,11 @@ import 'package:kanoevaa/pages/login.dart';
 import 'package:kanoevaa/repositories/auth_repository.dart';
 
 void main() {
-  final authService = AuthService();
-  runApp(MyApp(authService: authService));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final AuthService? authService;
-
-  MyApp({required this.authService});
+  MyApp();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +24,7 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme:
             InputDecorationTheme(enabledBorder: InputBorder.none),
       ),
-      home: Login(authService: authService!),
+      home: Login(),
     );
   }
 }
