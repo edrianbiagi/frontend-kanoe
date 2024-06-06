@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intl/intl.dart';
-import 'package:kanoevaa/model/turmas.dart';
-import 'package:kanoevaa/pages/alunos/agendamento.dart';
+import 'package:kanoevaa/models/turmas.dart';
 import 'package:kanoevaa/repositories/turma_repository.dart';
 
 import '../login.dart';
@@ -29,6 +27,7 @@ class _TurmasState extends State<Turmas> {
 
   @override
   void initState() {
+    super.initState();
     _secureStorage = FlutterSecureStorage();
     _turmaRepository = TurmaRepository();
     _loadNomeUsuario();
@@ -514,13 +513,13 @@ class _TurmasState extends State<Turmas> {
                         final turma = _turmas[index];
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Agendamento(idTurma: turma.id),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         Agendamento(idTurma: turma),
+                            //   ),
+                            // );
                           },
                           child: Container(
                             width: 358,
@@ -552,7 +551,7 @@ class _TurmasState extends State<Turmas> {
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  'Data: ${DateFormat('dd/MM/yyyy').format(turma.data)}, Hora: ${turma.hora}',
+                                  'Data: ${turma.data}, Hora: ${turma.hora}',
                                   style: TextStyle(
                                     fontFamily: 'Helvetica',
                                     fontSize: 16,

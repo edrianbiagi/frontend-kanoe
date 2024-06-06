@@ -1,12 +1,34 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kanoevaa/config.dart';
-import 'package:kanoevaa/model/turmas.dart';
+import 'package:kanoevaa/models/turmas.dart';
 
 class TurmaRepository {
   final Dio _dio;
   final String baseUrl = Config.baseUrl;
 
   TurmaRepository() : _dio = Dio();
+
+  Future<bool> addTurma(String? token, Turma turma) async {
+    try {
+      final response = await _dio.post(
+        '$baseUrl/turma/novoTurma',
+        data: turma.toJson(),
+        options: Options(
+          headers: {
+            'x-access-token': token,
+          },
+        ),
+      );
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        throw Exception('Erro ao adicionar turma: ${response.statusCode}');
+      }
+    } catch (error) {
+      return false;
+    }
+  }
 
   Future<List<Turma>> buscarTurmas(String token) async {
     try {
