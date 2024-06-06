@@ -111,7 +111,7 @@ class _AgendamentoState extends State<Agendamento> {
                 await Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Login(),
+                    builder: (context) => LoginPage(),
                   ),
                 );
               }

@@ -572,7 +572,7 @@ class _CadastroAlunoState extends State<CadastroAluno> {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => LoginPage(),
                           ),
                         );
                       } else {

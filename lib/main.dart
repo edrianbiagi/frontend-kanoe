@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme:
             InputDecorationTheme(enabledBorder: InputBorder.none),
       ),
-      home: Login(),
+      home: LoginPage(),
     );
   }
 }

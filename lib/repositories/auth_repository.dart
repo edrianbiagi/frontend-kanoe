@@ -38,6 +38,7 @@ class AuthRepository {
         final nomeUsuario = response.data['nome'];
         final idAluno = response.data['alunoId'];
         final mensalidadeAtrasada = response.data['mensalidadesAtrasadas'];
+        final roles = response.data['roles'];
 
         await _secureStorage.write(key: 'token', value: token);
         await _secureStorage.write(key: 'user', value: idUser);
@@ -45,6 +46,7 @@ class AuthRepository {
         await _secureStorage.write(key: 'aluno', value: idAluno);
         await _secureStorage.write(
             key: 'mensalidade_atrasada', value: mensalidadeAtrasada.toString());
+        await _secureStorage.write(key: 'roles', value: jsonEncode(roles));
 
         return {'success': true, 'message': 'Login successful'};
       } else if (response.statusCode == 401) {

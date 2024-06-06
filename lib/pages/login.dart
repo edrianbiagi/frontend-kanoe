@@ -1,18 +1,32 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:kanoevaa/constants.dart';
+import 'package:kanoevaa/pages/admin/home.dart';
 import 'package:kanoevaa/pages/cadastro_aluno.dart';
 import 'package:kanoevaa/pages/alunos/turma.dart';
 import 'package:kanoevaa/repositories/auth_repository.dart';
 import 'package:kanoevaa/widgets/background_image.dart';
 
-class Login extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   AuthRepository authRepository = AuthRepository();
+  late FlutterSecureStorage secureStorage;
 
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    authRepository = AuthRepository();
+    secureStorage = FlutterSecureStorage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,13 +106,6 @@ class Login extends StatelessWidget {
                             TextSpan(
                               text: "SIGN IN\n",
                             ),
-                            // TextSpan(
-                            //   text: "Esqueci a senha",
-                            //   style: Theme.of(context)
-                            //       .textTheme
-                            //       .button!
-                            //       .copyWith(color: kSecondaryColor),
-                            // )
                           ],
                         ),
                       ),
@@ -107,10 +114,31 @@ class Login extends StatelessWidget {
                           Map<String, dynamic>? result = await authRepository
                               .login(context, cpf, password);
                           if (result != null && result['success']) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => Turmas()),
-                            );
+                            // Obtendo os papéis do usuário salvos no secureStorage
+                            String? roles =
+                                await secureStorage.read(key: 'roles');
+
+                            if (roles!.contains('ROLE_ADMIN')) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => InicialPageAdmin()),
+                              );
+                            } else if (roles.contains('ROLE_ALUNO')) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Turmas()),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Papel do usuário não reconhecido'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

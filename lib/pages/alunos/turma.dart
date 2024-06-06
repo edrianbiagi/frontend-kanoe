@@ -172,7 +172,7 @@ class _TurmasState extends State<Turmas> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => LoginPage(),
                           ),
                         );
                       },
@@ -368,7 +368,7 @@ class _TurmasState extends State<Turmas> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => LoginPage(),
                           ),
                         );
                       },
