@@ -15,7 +15,7 @@ class AlunoModel {
   final bool termoResponsabilidade;
   final double valorMensalidade;
   final int diaVencimento;
-  final bool mensalidadesEmAtraso;
+  final int mensalidadesEmAtraso;
   final String status;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -57,7 +57,7 @@ class AlunoModel {
       tratamentoMedico: json['tratamento_medico'],
       obsGerais: json['obs_gerais'],
       termoResponsabilidade: json['termo_responsabilidade'],
-      valorMensalidade: json['valor_mensalidade'],
+      valorMensalidade: double.parse(json['valor_mensalidade']),
       diaVencimento: json['dia_vencimento'],
       mensalidadesEmAtraso: json['mensalidades_em_atraso'],
       status: json['status'],

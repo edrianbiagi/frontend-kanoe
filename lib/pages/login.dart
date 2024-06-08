@@ -21,6 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool cpfErrorVisible = false;
+  bool passwordErrorVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,19 +38,20 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: backgroundImage(),
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
                   height: 40,
                 ),
                 Container(
+                  width: 380,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(66, 221, 219, 219),
@@ -55,7 +59,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: TextField(
                     controller: cpfController,
-                    onChanged: (value) => cpf = value,
+                    onChanged: (value) {
+                      setState(() {
+                        cpf = value;
+                        cpfErrorVisible =
+                            false; // Define como falso quando o CPF é preenchido
+                      });
+                    },
                     decoration: InputDecoration(
                       hintText: "CPF",
                       hintStyle: TextStyle(color: Colors.grey),
@@ -65,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                         width: 15,
                       ),
                       border: InputBorder.none,
+                      errorText: cpfErrorVisible ? 'CPF obrigatório' : null,
                     ),
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -74,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 10),
                 Container(
+                  width: 380,
                   padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(66, 221, 219, 219),
@@ -81,7 +93,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: TextField(
                     controller: passwordController,
-                    onChanged: (value) => password = value,
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                        passwordErrorVisible = value.isEmpty;
+                      });
+                    },
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Senha",
@@ -92,77 +109,94 @@ class _LoginPageState extends State<LoginPage> {
                         width: 15,
                       ),
                       border: InputBorder.none,
+                      errorText:
+                          passwordErrorVisible ? 'Senha obrigatória' : null,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "SIGN IN\n",
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          Map<String, dynamic>? result = await authRepository
-                              .login(context, cpf, password);
-                          if (result != null && result['success']) {
-                            // Obtendo os papéis do usuário salvos no secureStorage
-                            String? roles =
-                                await secureStorage.read(key: 'roles');
-
-                            if (roles!.contains('ROLE_ADMIN')) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => InicialPageAdmin()),
-                              );
-                            } else if (roles.contains('ROLE_ALUNO')) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Turmas()),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text('Papel do usuário não reconhecido'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(result!['message']),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          }
-                        },
-                        child: SvgPicture.asset(
-                          "assets/icons/Goarrow.svg",
-                          color: Color.fromARGB(66, 7, 29, 79),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: SizedBox(
-                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        if (cpfController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          setState(() {
+                            cpfErrorVisible = cpfController.text.isEmpty;
+                            passwordErrorVisible =
+                                passwordController.text.isEmpty;
+                          });
+                          return;
+                        }
+                        Map<String, dynamic>? result =
+                            await authRepository.login(context,
+                                cpfController.text, passwordController.text);
+                        if (result != null && result['success']) {
+                          String? roles =
+                              await secureStorage.read(key: 'roles');
+
+                          if (roles!.contains('ROLE_ADMIN')) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InicialPageAdmin()),
+                            );
+                          } else if (roles.contains('ROLE_ALUNO')) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => Turmas()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text('Papel do usuário não reconhecido'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(result!['message']),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                      icon: Icon(
+                        Icons.login,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        "Entrar",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.all<Size>(
+                          Size(380, 50),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromRGBO(114, 114, 14, 1)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: SizedBox(
                     child: ElevatedButton.icon(
                       onPressed: () {
                         Navigator.push(
@@ -184,6 +218,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.all<Size>(
+                          Size(380, 50),
+                        ),
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.blue),
                         shape:

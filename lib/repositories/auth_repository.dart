@@ -48,9 +48,9 @@ class AuthRepository {
             key: 'mensalidade_atrasada', value: mensalidadeAtrasada.toString());
         await _secureStorage.write(key: 'roles', value: jsonEncode(roles));
 
-        return {'success': true, 'message': 'Login successful'};
+        return {'success': true, 'message': 'Login realizado com sucesso'};
       } else if (response.statusCode == 401) {
-        return {'success': false, 'message': 'Invalid credentials'};
+        return {'success': false, 'message': 'Usuáio e/ou senha inválidos'};
       } else {
         return {'success': false, 'message': 'Unexpected error'};
       }

@@ -91,7 +91,7 @@ class _NavigationState extends State<Navigation> {
                   SizedBox(width: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue,
+                      backgroundColor: Colors.blue,
                     ),
                     onPressed: () {
                       BottomSheetTurma.show(context, _secureStorage);
@@ -176,18 +176,36 @@ class _NavigationState extends State<Navigation> {
             child: Text('Nenhum aluno encontrado'),
           );
         } else {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final aluno = snapshot.data![index];
-              return Card(
-                child: ListTile(
-                  title: Text(aluno.user.nome), // Exibir o nome do usuário
-                  subtitle: Text(aluno
-                      .dtNascimento), // Exibir a data de nascimento do aluno
-                ),
-              );
-            },
+          return Container(
+            margin: EdgeInsets.only(top: 16.0),
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final aluno = snapshot.data![index];
+
+                // Defina a cor padrão verde bem suave
+                Color borderColor = aluno.mensalidadesEmAtraso > 0
+                    ? Colors.red
+                    : Colors.green[100]!;
+
+                return Card(
+                  elevation:
+                      4.0, // Adicione alguma elevação para realçar o efeito de borda
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Defina o raio da borda
+                    side: BorderSide(
+                      color: borderColor,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Text(aluno.user.nome),
+                    subtitle: Text(aluno.dtNascimento),
+                  ),
+                );
+              },
+            ),
           );
         }
       },
