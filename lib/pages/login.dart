@@ -37,14 +37,16 @@ class _LoginPageState extends State<LoginPage> {
     String password = "";
 
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: backgroundImage(),
-          ),
-          Expanded(
-            child: Column(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height *
+                  0.5, // Altura da imagem de fundo
+              child: backgroundImage(),
+            ),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
@@ -62,8 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                     onChanged: (value) {
                       setState(() {
                         cpf = value;
-                        cpfErrorVisible =
-                            false; // Define como falso quando o CPF é preenchido
+                        cpfErrorVisible = false;
                       });
                     },
                     decoration: InputDecoration(
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 10),
                 Container(
                   width: 380,
-                  padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(66, 221, 219, 219),
                     borderRadius: BorderRadius.circular(20),
@@ -120,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: SizedBox(
+                    width: 380, // Define a largura fixa para o botão
                     child: ElevatedButton.icon(
                       onPressed: () async {
                         if (cpfController.text.isEmpty ||
@@ -197,6 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: SizedBox(
+                    width: 380, // Define a largura fixa para o botão
                     child: ElevatedButton.icon(
                       onPressed: () {
                         Navigator.push(
@@ -235,8 +238,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
