@@ -92,9 +92,7 @@ class _ChatState extends State<Chat> {
                                       await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Profile(
-                                                name: widget.name,
-                                                speciality: widget.specialist),
+                                            builder: (context) => Profile(),
                                           ));
                                       animator();
                                     },

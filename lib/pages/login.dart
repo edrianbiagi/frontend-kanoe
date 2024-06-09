@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool cpfErrorVisible = false;
   bool passwordErrorVisible = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -121,64 +122,22 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: SizedBox(
-                    width: 380, // Define a largura fixa para o botão
+                    width: 380,
                     child: ElevatedButton.icon(
-                      onPressed: () async {
-                        if (cpfController.text.isEmpty ||
-                            passwordController.text.isEmpty) {
-                          setState(() {
-                            cpfErrorVisible = cpfController.text.isEmpty;
-                            passwordErrorVisible =
-                                passwordController.text.isEmpty;
-                          });
-                          return;
-                        }
-                        Map<String, dynamic>? result =
-                            await authRepository.login(context,
-                                cpfController.text, passwordController.text);
-                        if (result != null && result['success']) {
-                          String? roles =
-                              await secureStorage.read(key: 'roles');
-
-                          if (roles!.contains('ROLE_ADMIN')) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InicialPageAdmin()),
-                            );
-                          } else if (roles.contains('ROLE_ALUNO')) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => Turmas()),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content:
-                                    Text('Papel do usuário não reconhecido'),
-                                backgroundColor: Colors.red,
+                      onPressed: isLoading ? null : _login,
+                      icon: isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
-                            );
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(result!['message']),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        }
-                      },
-                      icon: Icon(
-                        Icons.login,
-                        color: Colors.white,
-                      ),
+                            )
+                          : Icon(Icons.login, color: Colors.white),
                       label: Text(
                         "Entrar",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all<Size>(
@@ -242,5 +201,57 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _login() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Verificar se os campos estão preenchidos
+    if (cpfController.text.isEmpty || passwordController.text.isEmpty) {
+      setState(() {
+        cpfErrorVisible = cpfController.text.isEmpty;
+        passwordErrorVisible = passwordController.text.isEmpty;
+        isLoading = false;
+      });
+      return;
+    }
+
+    Map<String, dynamic>? result = await authRepository.login(
+        context, cpfController.text, passwordController.text);
+    if (result != null && result['success']) {
+      String? roles = await secureStorage.read(key: 'roles');
+
+      if (roles!.contains('ROLE_ADMIN')) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => InicialPageAdmin()),
+        );
+      } else if (roles.contains('ROLE_ALUNO')) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Turmas()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Papel do usuário não reconhecido'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result!['message']),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }

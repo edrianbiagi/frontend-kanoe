@@ -59,7 +59,9 @@ class AlunoModel {
       termoResponsabilidade: json['termo_responsabilidade'],
       valorMensalidade: double.parse(json['valor_mensalidade']),
       diaVencimento: json['dia_vencimento'],
-      mensalidadesEmAtraso: json['mensalidades_em_atraso'],
+      mensalidadesEmAtraso: json['mensalidades_em_atraso'] is int
+          ? json['mensalidades_em_atraso']
+          : 0, // Verifica se é um inteiro, senão atribui 0
       status: json['status'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),

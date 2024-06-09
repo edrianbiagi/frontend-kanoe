@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kanoevaa/pages/Oppointment.dart';
-import 'package:kanoevaa/res/lists.dart';
 
 class Profile extends StatefulWidget {
-  final String name;
-  final String speciality;
-  const Profile({super.key, required this.name, required this.speciality});
+  const Profile({
+    super.key,
+  });
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -73,27 +72,27 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          names[0],
-                          style: TextStyle(
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 25,
-                          ),
-                        ),
+                        // Text(
+                        //   names[0],
+                        //   style: TextStyle(
+                        //     fontFamily: 'Helvetica',
+                        //     fontWeight: FontWeight.bold,
+                        //     color: Colors.black,
+                        //     fontSize: 25,
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          names[0],
-                          style: TextStyle(
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(.6),
-                            fontSize: 15,
-                          ),
-                        ),
+                        // Text(
+                        //   names[0],
+                        //   style: TextStyle(
+                        //     fontFamily: 'Helvetica',
+                        //     fontWeight: FontWeight.bold,
+                        //     color: Colors.black.withOpacity(.6),
+                        //     fontSize: 15,
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 50,
                         ),

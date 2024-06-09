@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kanoevaa/constants.dart';
 import 'package:kanoevaa/models/alunos.dart';
+import 'package:kanoevaa/pages/Oppointment.dart';
 import 'package:kanoevaa/pages/admin/components/custom_bar.dart';
 import 'package:kanoevaa/pages/admin/components/bottom_sheet_turma.dart';
+import 'package:kanoevaa/pages/admin/perfil_aluno.dart';
+import 'package:kanoevaa/pages/alunos/Profile.dart';
 import 'package:kanoevaa/repositories/aluno_repository.dart';
 
 class InicialPageAdmin extends StatelessWidget {
@@ -177,31 +180,37 @@ class _NavigationState extends State<Navigation> {
           );
         } else {
           return Container(
-            margin: EdgeInsets.only(top: 16.0),
+            margin: EdgeInsets.only(top: 16.0, left: 10, right: 10),
             child: ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final aluno = snapshot.data![index];
 
-                // Defina a cor padrão verde bem suave
                 Color borderColor = aluno.mensalidadesEmAtraso > 0
                     ? Colors.red
-                    : Colors.green[100]!;
+                    : Color.fromARGB(255, 120, 172, 122);
 
-                return Card(
-                  elevation:
-                      4.0, // Adicione alguma elevação para realçar o efeito de borda
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8.0), // Defina o raio da borda
-                    side: BorderSide(
-                      color: borderColor,
-                      width: 2.0,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PerfilAlunoPage(aluno: aluno),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      side: BorderSide(
+                        color: borderColor,
+                        width: 2.0,
+                      ),
                     ),
-                  ),
-                  child: ListTile(
-                    title: Text(aluno.user.nome),
-                    subtitle: Text(aluno.dtNascimento),
+                    child: ListTile(
+                      title: Text(aluno.user.nome),
+                      subtitle: Text(aluno.dtNascimento),
+                    ),
                   ),
                 );
               },
